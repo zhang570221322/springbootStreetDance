@@ -1,0 +1,54 @@
+# server
+server:
+  port: 8080
+  context-path: /springboot
+
+# spring
+spring:
+  # datasource
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      password: 123456
+      initial-size: 1
+      min-idle: 3
+      max-active: 20
+      max-wait: 60000
+      filters: stat,wall,slf4j
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      validation-query: select 'x'
+  # hot-deploy
+  devtools:
+    restart:
+      enabled: true
+# log
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} : %msg%n"
+  level:
+    com.wugengkj.springboot: debug
+    org.springframework: info
+    org.hibernate: info
+
+# mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.wugengkj.springboot.entity
+  global-config:
+    id-type: 2
+    field-strategy: 2
+    db-column-underline: true
+    refresh-mapper: true
+    capital-mode: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true

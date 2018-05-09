@@ -1,0 +1,28 @@
+# spring
+spring:
+  # profile
+  profiles:
+    active: prod
+  # jackson
+  jackson:
+    default-property-inclusion: non_empty
+  # mail
+  mail:
+    host: smtp.qq.com
+    username: 3273104264@qq.com
+    password: bqxznzvbgefndaef
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  # aop
+  aop:
+    proxy-target-class: true
+    auto: true
+  cache:
+    type: simple
+

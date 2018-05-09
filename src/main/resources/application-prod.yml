@@ -1,0 +1,32 @@
+# spring
+spring:
+  # datasource
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    platform: mysql
+    url: jdbc:mysql://139.199.16.239:3306/springboot?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: XUBENCHI789xbc!@#
+  # hot-deploy
+  devtools:
+    restart:
+      enabled: false
+
+# log
+logging:
+  config: classpath:logback/logback.xml
+
+# mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.wugengkj.springboot.entity
+  global-config:
+    id-type: 2
+    field-strategy: 2
+    db-column-underline: true
+    refresh-mapper: false
+    capital-mode: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
