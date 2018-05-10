@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,11 +20,24 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class SubjectService  extends ServiceImpl<SubjectMapper, Subject> implements ISubjectService{
+public class SubjectService extends ServiceImpl<SubjectMapper, Subject> implements ISubjectService {
 
     @Override
-    @Cacheable(value = "queryList",key = "#p0")
+    @Cacheable(value = "queryList", key = "#p0")
     public List<Subject> queryList(int key) {
         return super.selectList(new EntityWrapper<>());
+    }
+
+    /**
+     * 获取难度依次递增的9道题目
+     *
+     * @param openid
+     * @return
+     */
+    @Override
+    public List<Subject> getRandomList(String openid) {
+        List<Subject> subjectList = this.queryList(-1);
+        List<Subject> list = new ArrayList<>();
+        return list;
     }
 }

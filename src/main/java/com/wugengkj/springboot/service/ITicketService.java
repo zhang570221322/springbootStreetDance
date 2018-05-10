@@ -19,4 +19,6 @@ public interface ITicketService extends IService<Ticket> {
      * @return 票信息
      */
     Ticket queryOneByOpenId(String openId);
+
+
 }
