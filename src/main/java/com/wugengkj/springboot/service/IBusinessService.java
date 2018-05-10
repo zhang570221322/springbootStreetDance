@@ -3,8 +3,6 @@ package com.wugengkj.springboot.service;
 import com.baomidou.mybatisplus.service.IService;
 import com.wugengkj.springboot.entity.Business;
 
-import java.io.Serializable;
-
 /**
  * @author leaf
  * <p>date: 2018-05-10 09:06</p>

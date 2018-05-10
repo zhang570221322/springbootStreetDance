@@ -3,8 +3,6 @@ package com.wugengkj.springboot.service;
 import com.baomidou.mybatisplus.service.IService;
 import com.wugengkj.springboot.entity.Ticket;
 
-import java.util.List;
-
 /**
  * @author leaf
  * <p>date: 2018-05-10 14:21</p>

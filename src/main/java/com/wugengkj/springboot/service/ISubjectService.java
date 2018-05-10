@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.service.IService;
 import com.wugengkj.springboot.entity.Subject;
 import com.wugengkj.springboot.entity.Ticket;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
