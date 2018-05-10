@@ -20,9 +20,10 @@ import java.util.List;
 @Service
 @Slf4j
 public class SubjectService  extends ServiceImpl<SubjectMapper, Subject> implements ISubjectService{
+
     @Override
-    @Cacheable(value = "queryList",key="getAll")
-    public List<Subject> queryList() {
+    @Cacheable(value = "queryList",key = "#p0")
+    public List<Subject> queryList(int key) {
         return super.selectList(new EntityWrapper<>());
     }
 }
