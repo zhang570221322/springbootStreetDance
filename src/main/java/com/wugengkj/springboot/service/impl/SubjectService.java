@@ -29,7 +29,7 @@ public class SubjectService extends ServiceImpl<SubjectMapper, Subject> implemen
     }
 
     /**
-     * 获取难度依次递增的9道题目
+     *  根据用户的openid获取对应难度依次递增的9道题目
      *
      * @param openid
      * @return
