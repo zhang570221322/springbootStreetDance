@@ -25,6 +25,7 @@ public class Business {
     @TableId
     private Long id;
     private String name;
+    private String appid;
     private String content;
     private String detail;
     private String regular;

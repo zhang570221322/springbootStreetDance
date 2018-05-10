@@ -22,7 +22,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class Swagger2Config {
 
     /**
-     * 访问地址: http://localhost:8080/springboot/swagger-ui.html
+     * 访问地址: http://localhost:8080/dance/swagger-ui.html
      *
      * @return api
      */

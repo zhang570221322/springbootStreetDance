@@ -22,8 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SpringbootApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication run = new SpringApplication(SpringbootApplication.class);
-        run.run(args);
+        SpringApplication.run(SpringbootApplication.class, args);
     }
 
     @Override

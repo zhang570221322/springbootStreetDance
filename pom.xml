@@ -154,7 +154,7 @@
                     <password>${remote.password}</password>
                     <update>true</update>
                     <!-- 项目路径 -->
-                    <path>/springboot</path>
+                    <path>/dance</path>
                 </configuration>
             </plugin>
         </plugins>

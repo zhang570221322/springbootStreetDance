@@ -15,7 +15,8 @@ import lombok.Getter;
 public enum ErrorStatus {
     // 全局错误
     GLOBAL_ERROR(0, "0000", "全局错误", "系统全局异常"),
-    AUTHOR_LACK_ERROR(1, "1000", "权限错误", "未知系统权限错误!"),
+    AUTH_LACK_ERROR(1, "1000", "权限错误", "未知系统权限错误!"),
+    API_ACCESS_VALID_ERROR(1, "1000", "权限错误", "无API访问权限!"),
     HTTP_METHOD_ERROR(2, "2001", "HTTP错误", "请求姿势不对，要不换个试试----(｡◕‿◕｡)----"),
     MISS_PARAM_ERROR(2, "2002", "HTTP错误", "缺少请求参数，请填写完整请求参数"),
     PARAM_INVALID_ERROR(2, "2003", "HTTP错误", "参数验证无效，请规范输入"),

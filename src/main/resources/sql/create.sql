@@ -57,6 +57,7 @@ DROP TABLE IF EXISTS business;
 CREATE TABLE business (
   `id` BIGINT PRIMARY KEY,
   `name` VARCHAR(16) NOT NULL COMMENT '活动名称',
+  `appid` VARCHAR(32) NOT NULL COMMENT '自定义密钥',
   `content` TEXT DEFAULT NULL COMMENT '活动内容',
   `detail` TEXT DEFAULT NULL COMMENT '活动描述',
   `regular` TEXT DEFAULT NULL COMMENT '活动规则',

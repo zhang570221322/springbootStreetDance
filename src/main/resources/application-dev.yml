@@ -1,17 +1,17 @@
 # server
 server:
   port: 8080
-  context-path: /springboot
+  context-path: /dance
 
 # spring
 spring:
   # datasource
   datasource:
     druid:
-      url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+      url: jdbc:mysql://139.199.16.239:3306/dance?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
       driver-class-name: com.mysql.jdbc.Driver
       username: root
-      password: 123456
+      password: XUBENCHI789xbc!@#
       initial-size: 1
       min-idle: 3
       max-active: 20

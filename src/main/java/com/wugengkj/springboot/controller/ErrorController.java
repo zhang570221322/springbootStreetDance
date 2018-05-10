@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +62,19 @@ public class ErrorController extends AbstractErrorController {
         ErrorTemplateVO template;
         // 获取系统自定义错误参数
         Map<String, Object> errorAttributes = this.getErrorAttributes(request, false);
-        Throwable exception = attributes.getError(new ServletWebRequest(request)).getCause();
+        // 获取自定义异常参数
+        RequestAttributes requestAttributes = new ServletRequestAttributes(request);
+        Throwable exception = attributes.getError(requestAttributes).getCause();
+        if (exception == null) {
+            return ResponseInfoVO.fail(ErrorTemplateVO.builder()
+                    .code(errorAttributes.get("status").toString())
+                    .error(errorAttributes.get("error").toString())
+                    .message(errorAttributes.get("message").toString())
+                    .exception(errorAttributes.get("exception").toString())
+                    .path(errorAttributes.get("path").toString())
+                    .build());
+        }
+
         if (exception instanceof GlobalException) {
             // 转换为自定义错误异常
             ErrorStatus status = ((GlobalException) exception).getStatus();

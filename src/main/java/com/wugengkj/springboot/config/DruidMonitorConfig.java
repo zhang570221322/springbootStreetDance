@@ -35,7 +35,7 @@ public class DruidMonitorConfig {
     private String reset;
 
     /**
-     * 访问地址: http://localhost:8080/springboot/druid/index.html
+     * 访问地址: http://localhost:8080/dance/druid/index.html
      *
      * 注册ServletRegistrationBean
      *
