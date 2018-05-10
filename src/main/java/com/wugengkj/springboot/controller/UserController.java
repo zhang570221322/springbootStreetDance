@@ -32,13 +32,13 @@ public class UserController {
 
     @ApiOperation("获取用户状态")
     @PostMapping(value = "status")
-    public ResponseInfoVO status(@RequestParam("code") String code) {
+    public ResponseInfoVO _status(@RequestParam("code") String code) {
         return ResponseInfoVO.success(userService.queryUserStatus(AccessTokenUtil.getOpenId(code)));
     }
 
     @ApiOperation("提交用户信息")
     @PostMapping("post")
-    public ResponseInfoVO post(@RequestParam("code") String code,
+    public ResponseInfoVO _post(@RequestParam("code") String code,
                                @RequestParam("name") String name,
                                @RequestParam("age") Integer age,
                                @RequestParam("sex") String sex,
@@ -60,7 +60,7 @@ public class UserController {
 
     @ApiOperation("获取用户得票信息")
     @PostMapping(value = "ticket")
-    public ResponseInfoVO ticket(@RequestParam("code") String code) {
+    public ResponseInfoVO _ticket(@RequestParam("code") String code) {
         String openId = AccessTokenUtil.getOpenId(code);
         return ResponseInfoVO.success(ticketService.queryOneByOpenId(openId));
     }

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class SubjectController {
 
     @ApiOperation("获取用户题目信息")
     @PostMapping("get")
-    public ResponseInfoVO get(@RequestParam("code") String code) {
+    public ResponseInfoVO _get(@RequestParam("code") String code) {
         String openId = AccessTokenUtil.getOpenId(code);
         List<Subject> randomList = subjectService.getRandomList(openId);
 
@@ -43,7 +44,7 @@ public class SubjectController {
 
     @ApiOperation("用户提交题目")
     @PostMapping("post")
-    public ResponseInfoVO post(@RequestParam("code") String code, @RequestParam("subject") List<SubjectInfoDTO> subject) {
+    public ResponseInfoVO _post(@RequestParam("code") String code, @RequestParam("subject[]") ArrayList<SubjectInfoDTO> subject) {
         Map<Long, String> results = new HashMap<>();
         subject.stream().forEach(dto -> results.put(dto.getId(), dto.getResult()));
         String openId = AccessTokenUtil.getOpenId(code);

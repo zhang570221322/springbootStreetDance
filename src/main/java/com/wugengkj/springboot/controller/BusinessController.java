@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
  * <p>date: 2018-05-10 20:27</p>
  * <p>version: 1.0</p>
  */
-@Api(value = "商户请求相关", description = "/business")
+@Api(value = "商户请求相关", description = "/business")  //swagger框架生成API
 @RequestMapping("/business")
 @RestController
-@CrossOrigin
+@CrossOrigin //允许跨域
 public class BusinessController {
 
     @Autowired
@@ -26,6 +26,7 @@ public class BusinessController {
     @ApiOperation("获取商户信息")
     @PostMapping("info")
     public ResponseInfoVO info(@RequestParam("code") String code) {
+
         AccessTokenUtil.getOpenId(code);
         Business business = businessService.queryOneById(1L);
         // 置空关键信息

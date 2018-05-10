@@ -52,42 +52,44 @@ public class AccessTokenUtil {
      * @return
      */
     public static String getOpenId(String code) {
-        if (code != null && !code.isEmpty()) {
-            JSONObject json;
-            BufferedReader reader;
-            HttpURLConnection urlConnection = null;
-            String url = "https://api.weixin.qq.com/sns/jscode2session";
-            String httpUrl = url + "?appid=" + APP_ID + "&secret=" + APP_SECRET + "&js_code=" + code
-                    + "&grant_type=authorization_code";
-            StringBuilder str;
-            try {
-                urlConnection = (HttpURLConnection) new URL(httpUrl).openConnection();
-                reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-                str = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    str.append(line);
-                }
-            } catch (Exception e) {
-                throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-            }
-
-            String openID;
-            try {
-                json = new JSONObject(str.toString());
-                openID = json.get("openid").toString();
-            } catch (JSONException e) {
-                throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
-            }
-
-            return openID;
-        }
-
-        throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
+        //方便测试
+        return "1";
+//        if (code != null && !code.isEmpty()) {
+//            JSONObject json;
+//            BufferedReader reader;
+//            HttpURLConnection urlConnection = null;
+//            String url = "https://api.weixin.qq.com/sns/jscode2session";
+//            String httpUrl = url + "?appid=" + APP_ID + "&secret=" + APP_SECRET + "&js_code=" + code
+//                    + "&grant_type=authorization_code";
+//            StringBuilder str;
+//            try {
+//                urlConnection = (HttpURLConnection) new URL(httpUrl).openConnection();
+//                reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+//                str = new StringBuilder();
+//                String line;
+//                while ((line = reader.readLine()) != null) {
+//                    str.append(line);
+//                }
+//            } catch (Exception e) {
+//                throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
+//            } finally {
+//                if (urlConnection != null) {
+//                    urlConnection.disconnect();
+//                }
+//            }
+//
+//            String openID;
+//            try {
+//                json = new JSONObject(str.toString());
+//                openID = json.get("openid").toString();
+//            } catch (JSONException e) {
+//                throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
+//            }
+//
+//            return openID;
+//        }
+//
+//        throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
     }
 
 
@@ -102,7 +104,7 @@ public class AccessTokenUtil {
     public static int ticketId(int subjectSuccessNum, int subjectTotal, int ticketTotal) {
         if (subjectSuccessNum <= subjectTotal) {
             return (int) Math.ceil(ticketTotal * (subjectSuccessNum / subjectTotal));
-        }
+    }
         return -1;
     }
 

@@ -1,0 +1,47 @@
+1、BusinessController 的info 方法，不需要加code吧？
+2、ResponseInfoVO  中的code需要改一改了，定的接口文档有
+3、得到商户信息的create需要格式化吗？
+4、userController里的post和status和mc测试里的类重复了，不利于测试，我改动Controller方法名了
+5、上面那个类的status 返回参数不规范， {
+                        "code":1,
+                        "msg":"success",
+                        "data":0 //应 为"0"
+                        }
+6、没按照接口文档开发~~~~。。。。~~~~~
+7、方便测试 工具类获得openid 我返回1了
+8、获取总票数也不需要验证code吧？
+9、SubjectController 也与关键字重复，方法我加_了
+10、/user/post 返回参数不规范 {
+                              "code":1,
+                              "msg":"success",
+                              "data":true
+                              }
+11、/user/ticket 同样不规范
+                    {
+                     "code":1,
+                     "msg":"success",
+                     "data":{
+                     "id":1,
+                     "name":"测试票",
+                     "content":"测试票内容",
+                     "detail":"测试票内容详细",
+                     "total":"111111",
+                     "currentNum":1111,
+                     "createTime":1525972004000,
+                     "validTime":1525972004000
+                     }
+                     }
+12、/ticket/get/nums 也不规范
+         {
+         "code":1,
+         "msg":"success",
+         "data":1000
+         }
+
+13、 /subject/get 错误 getRandomList(SubjectServiceImpl.java:68) 因此service也是错的  java.lang.IndexOutOfBoundsException
+14、 /subject/pot 错误  https://www.cnblogs.com/hafiz/p/5498936.html 传不到后台
+14.1、 service   层测试结果 updateBatchIsTrue(IRecordServiceImpl.java:55)  Mapped Statements collection does not contain value for com.wugengkj.springboot.mapper.RecordMapper.updateById
+//异常框架
+
+
+15、判断题对题的逻辑可能不对
