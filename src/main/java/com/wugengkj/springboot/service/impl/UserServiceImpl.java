@@ -3,6 +3,7 @@ package com.wugengkj.springboot.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.wugengkj.springboot.common.enums.UserStatus;
 import com.wugengkj.springboot.entity.User;
 import com.wugengkj.springboot.mapper.UserMapper;
 import com.wugengkj.springboot.service.IUserService;
@@ -20,6 +21,8 @@ import java.io.Serializable;
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
+
+
     @Override
     public boolean addOne(User user) {
         return insert(user);
@@ -29,6 +32,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public User queryOneByOpenId(Serializable openId) {
         return selectById(openId);
+    }
+
+    @Override
+    public int queryUserStatus(Serializable openId) {
+        User user = queryOneByOpenId(openId);
+        if (user == null) {
+            return UserStatus.USER_NOT_FOUND.getCode();
+        }
+        return user.getStatus();
     }
 
     @Override

@@ -29,6 +29,14 @@ public interface IUserService extends IService<User> {
     User queryOneByOpenId(Serializable openId);
 
     /**
+     * 查询用户状态
+     *
+     * @param openId openId
+     * @return 状态
+     */
+    int queryUserStatus(Serializable openId);
+
+    /**
      * 查询指定用户名信息
      *
      * @param name 用户名
