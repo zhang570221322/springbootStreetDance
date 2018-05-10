@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> implements IBusinessService {
 
-    @Cacheable(value = "business", key = "#p0")
+    @Cacheable(value = "queryOneById", key   = "#p0")
     @Override
     public Business queryOneById(Long id) {
         return selectById(id);

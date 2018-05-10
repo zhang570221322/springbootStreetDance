@@ -1,19 +1,19 @@
 package com.wugengkj.springboot.utils;
 
+import com.wugengkj.springboot.common.constants.GlobalConstants;
 import com.wugengkj.springboot.common.enums.ErrorStatus;
 import com.wugengkj.springboot.common.exception.GlobalException;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author leaf
@@ -22,9 +22,8 @@ import java.net.URL;
  */
 @Slf4j
 public class AccessTokenUtil {
-    // 华北水利水电大学学校
-    private final static String appId = "wx16c754c507aef3f3"; //小程序的唯一标识
-    private final static String appSecret = "8b4cf5088da66575281df5133841e6cb"; //小程序的应用密钥
+    private final static String APP_ID = "wx16c754c507aef3f3";
+    private final static String APP_SECRET = "8b4cf5088da66575281df5133841e6cb";
     private static final long API_TIMEOUT = 1000 * 60 * 10;
 
     /**
@@ -33,7 +32,7 @@ public class AccessTokenUtil {
      * @param token 时间戳
      * @return 正确/错误
      */
-    public boolean valid(String token) {
+    public static boolean valid(String token) {
         long accessTime;
         try {
             accessTime = Long.valueOf(token);
@@ -46,51 +45,81 @@ public class AccessTokenUtil {
         return currentTime - accessTime <= API_TIMEOUT;
     }
 
-
-
+    /**
+     * 获取openId
+     *
+     * @param code
+     * @return
+     */
     public static String getOpenId(String code) {
-
-        if (code == null || "".equals(code)) {
-            return "fail";
-        }
-        JSONObject json;
-        BufferedReader reader;
-        HttpURLConnection urlConnection;
-        String url = "https://api.weixin.qq.com/sns/jscode2session";
-        String httpUrl = url + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + code
-                + "&grant_type=authorization_code";
-        StringBuilder str = null;
-        try {
-            urlConnection = (HttpURLConnection) new URL(httpUrl).openConnection();
-            reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-            str = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                str.append(line);
+        if (code != null && !code.isEmpty()) {
+            JSONObject json;
+            BufferedReader reader;
+            HttpURLConnection urlConnection = null;
+            String url = "https://api.weixin.qq.com/sns/jscode2session";
+            String httpUrl = url + "?appid=" + APP_ID + "&secret=" + APP_SECRET + "&js_code=" + code
+                    + "&grant_type=authorization_code";
+            StringBuilder str;
+            try {
+                urlConnection = (HttpURLConnection) new URL(httpUrl).openConnection();
+                reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+                str = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    str.append(line);
+                }
+            } catch (Exception e) {
+                throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
             }
-        } catch (UnsupportedEncodingException e) {
-            log.error("找不到微信主机");
-        } catch (MalformedURLException e) {
-            log.error("URL 格式错误");
-        } catch (IOException e) {
-            log.error("IO异常");
+
+            String openID;
+            try {
+                json = new JSONObject(str.toString());
+                openID = json.get("openid").toString();
+            } catch (JSONException e) {
+                throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
+            }
+
+            return openID;
         }
 
+        throw new GlobalException(ErrorStatus.OPENID_VALID_ERROR);
+    }
 
-        String openID;
-        try {
-            json = new JSONObject(str.toString());
-            openID = json.get("openid").toString();
-        } catch (JSONException e) {
-            return "fail";
+
+    /**
+     * 计算用户得票类型
+     *
+     * @param subjectSuccessNum 正确题目数
+     * @param subjectTotal 题目总数
+     * @param ticketTotal 票总类型数
+     * @return 得票类型
+     */
+    public static int ticketId(int subjectSuccessNum, int subjectTotal, int ticketTotal) {
+        if (subjectSuccessNum <= subjectTotal) {
+            return (int) Math.ceil(ticketTotal * (subjectSuccessNum / subjectTotal));
         }
+        return -1;
+    }
 
-        if (openID == null || "".equals(openID)) {
-            return "fail";
+    /**
+     * 生成随机题目编号
+     *
+     * @return
+     */
+    public static List<Integer> randomSubject() {
+        Random random = new Random();
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < GlobalConstants.PRE_USER_TICKET_NUM; i++) {
+            int i1 = random.nextInt(100);
+            if (!list.contains(i1)) {
+                list.add(i1);
+            }
         }
-
-        return openID;
-
-
+        return list;
     }
 }

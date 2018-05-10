@@ -12,4 +12,12 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface TicketMapper extends BaseMapper<Ticket> {
+
+    /**
+     * 查询指定用户票信息
+     *
+     * @param openId
+     * @return
+     */
+    Ticket selectOneByOpenId(String openId);
 }

@@ -22,11 +22,8 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class Record {
-    @TableId
     private String openId;
-    @TableId
     private Long subjectId;
-    private Integer status;
     private Integer isTrue;
     private Date createTime;
     private Date updateTime;

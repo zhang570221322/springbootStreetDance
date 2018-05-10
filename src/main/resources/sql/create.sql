@@ -13,12 +13,12 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user (
   `open_id` VARCHAR(64) PRIMARY KEY,
   `name` VARCHAR(16) NOT NULL COMMENT '姓名',
-  `sex` TINYINT DEFAULT 1 COMMENT '性别(未知/男/女)',
+  `sex` VARCHAR(4) DEFAULT '男' COMMENT '性别(未知/男/女)',
   `age` INTEGER DEFAULT 18 COMMENT '年龄',
   `phone` VARCHAR(16) COMMENT '手机号',
   `qq` VARCHAR(16) COMMENT 'qq号',
   `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态(未答题:0/答题中:1/已答题:2)',
-  `ticket_id` BIGINT COMMENT '票id',
+  `ticket_id` BIGINT DEFAULT NULL COMMENT '票id',
   `create_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
   `post_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '答案提交时间',
   INDEX index_name(name),
@@ -31,7 +31,6 @@ DROP TABLE IF EXISTS record;
 CREATE TABLE record (
   `open_id` VARCHAR(64) NOT NULL COMMENT 'openId',
   `subject_id` BIGINT NOT NULL COMMENT '题目id',
-  `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态(未申请:0/已申请:1)',
   `is_true` TINYINT NOT NULL DEFAULT -1 COMMENT '是否正确(未作答:-1/错误:0/正确:1)',
   `create_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '申请时间',
   `update_time` TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp COMMENT '更新时间',

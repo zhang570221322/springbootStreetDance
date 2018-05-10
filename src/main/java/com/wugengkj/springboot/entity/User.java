@@ -25,7 +25,7 @@ public class User {
     @TableId(type = IdType.INPUT)
     private String openId;
     private String name;
-    private Integer sex;
+    private String sex;
     private Integer age;
     private String phone;
     private String qq;
