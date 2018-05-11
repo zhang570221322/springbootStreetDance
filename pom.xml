@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wugengkj</groupId>
-    <artifactId>springboot</artifactId>
+    <artifactId>dance</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>springboot</name>
+    <name>dance</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
@@ -139,6 +139,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.wugengkj.dance.DanceApplication</mainClass>
+                </configuration>
             </plugin>
 
             <!-- maven远程项目部署插件 -->

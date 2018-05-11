@@ -38,10 +38,10 @@
          "data":1000
          }
 
-13、 /subject/get 错误 getRandomList(SubjectServiceImpl.java:68) 因此service也是错的  java.lang.IndexOutOfBoundsException
-14、 /subject/pot 错误  https://www.cnblogs.com/hafiz/p/5498936.html 传不到后台
-14.1、 service   层测试结果 updateBatchIsTrue(IRecordServiceImpl.java:55)  Mapped Statements collection does not contain value for com.wugengkj.springboot.mapper.RecordMapper.updateById
+13、 /subject/get 错误 getRandomList(SubjectServiceImpl.java:68) 因此service也是错的  java.lang.IndexOutOfBoundsException 1
+14、 /subject/pot 错误  https://www.cnblogs.com/hafiz/p/5498936.html 传不到后台 1
+14.1、 service   层测试结果 updateBatchIsTrue(IRecordServiceImpl.java:55)  Mapped Statements collection does not contain value for com.wugengkj.dance.mapper.RecordMapper.updateById 1
 //异常框架
 
 
-15、判断题对题的逻辑可能不对
+15、判断题对题的逻辑可能不对 1
