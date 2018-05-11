@@ -18,4 +18,18 @@ public interface ITicketService extends IService<Ticket> {
      */
     Ticket queryOneByOpenId(String openId);
 
+    /**
+     * 减少票
+     *
+     * @param ticketId 票id
+     * @param businessId 商家id
+     * @return 成功/失败
+     */
+    boolean reduceOneTicket(Long ticketId, Long businessId);
+
+    /**
+     * 清理缓存
+     */
+    void removeCache();
+
 }

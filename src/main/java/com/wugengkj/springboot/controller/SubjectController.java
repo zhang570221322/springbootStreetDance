@@ -30,7 +30,7 @@ public class SubjectController {
 
     @ApiOperation("获取用户题目信息")
     @PostMapping("get")
-    public ResponseInfoVO _get(@RequestParam("code") String code) {
+    public ResponseInfoVO getUserSubjects(@RequestParam("code") String code) {
         String openId = AccessTokenUtil.getOpenId(code);
         List<Subject> randomList = subjectService.getRandomList(openId);
 
@@ -44,10 +44,10 @@ public class SubjectController {
 
     @ApiOperation("用户提交题目")
     @PostMapping("post")
-    public ResponseInfoVO _post(@RequestParam("code") String code, @RequestParam("subject[]") ArrayList<SubjectInfoDTO> subject) {
-        Map<Long, String> results = new HashMap<>();
-        subject.stream().forEach(dto -> results.put(dto.getId(), dto.getResult()));
+    public ResponseInfoVO postUserResult(@RequestHeader String code, @RequestBody List<SubjectInfoDTO> subjects) {
         String openId = AccessTokenUtil.getOpenId(code);
+        Map<Long, String> results = new HashMap<>();
+        subjects.stream().forEach(dto -> results.put(dto.getId(), dto.getResult()));
         return ResponseInfoVO.success(subjectService.postUserSubjectResult(openId, results));
     }
 }

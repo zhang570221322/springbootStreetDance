@@ -1,17 +1,17 @@
-1、BusinessController 的info 方法，不需要加code吧？
-2、ResponseInfoVO  中的code需要改一改了，定的接口文档有
-3、得到商户信息的create需要格式化吗？
-4、userController里的post和status和mc测试里的类重复了，不利于测试，我改动Controller方法名了
+1、BusinessController 的info 方法，不需要加code吧？ 1
+2、ResponseInfoVO  中的code需要改一改了，定的接口文档有 1
+3、得到商户信息的create需要格式化吗？ 1
+4、userController里的post和status和mc测试里的类重复了，不利于测试，我改动Controller方法名了 1
 5、上面那个类的status 返回参数不规范， {
                         "code":1,
                         "msg":"success",
                         "data":0 //应 为"0"
                         }
-6、没按照接口文档开发~~~~。。。。~~~~~
-7、方便测试 工具类获得openid 我返回1了
-8、获取总票数也不需要验证code吧？
-9、SubjectController 也与关键字重复，方法我加_了
-10、/user/post 返回参数不规范 {
+6、没按照接口文档开发~~~~。。。。~~~~~ 1
+7、方便测试 工具类获得openid 我返回1了 1
+8、获取总票数也不需要验证code吧？ 1
+9、SubjectController 也与关键字重复，方法我加_了 1
+10、/user/post 返回参数不规范 { 1
                               "code":1,
                               "msg":"success",
                               "data":true
@@ -31,7 +31,7 @@
                      "validTime":1525972004000
                      }
                      }
-12、/ticket/get/nums 也不规范
+12、/ticket/get/nums 也不规范 1
          {
          "code":1,
          "msg":"success",

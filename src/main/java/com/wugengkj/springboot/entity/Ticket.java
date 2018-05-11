@@ -1,6 +1,7 @@
 package com.wugengkj.springboot.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,8 +28,10 @@ public class Ticket {
     private String name;
     private String content;
     private String detail;
-    private String total;
+    private Integer total;
     private Integer currentNum;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date validTime;
 }

@@ -24,4 +24,17 @@ public interface IBusinessService extends IService<Business> {
      * @return appid
      */
     String queryAppidById(Long id);
+
+    /**
+     * 减少一张票
+     *
+     * @param businessId 商家id
+     * @return 成功/失败
+     */
+    boolean reduceOneTicket(Long businessId);
+
+    /**
+     * 清理缓存
+     */
+    void removeCache();
 }

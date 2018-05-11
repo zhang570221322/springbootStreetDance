@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wugengkj.springboot.mapper.RecordMapper">
+    <update id="updateRecordResult">
+        UPDATE record SET is_true=#{isTrue} WHERE open_id=#{openId} AND subject_id=#{subjectId}
+    </update>
 </mapper>

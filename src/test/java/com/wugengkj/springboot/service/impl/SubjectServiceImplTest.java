@@ -9,12 +9,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,11 +30,13 @@ public class SubjectServiceImplTest {
         log.debug(String.valueOf(subjects.size()));
     }
 
+    @Transactional
     @Test
     public void getRandomList() {
         subjectService.getRandomList("1");
     }
 
+    @Transactional
     @Test
     public void validSubjectResult() {
         Map s = new HashMap<Long, String>();
@@ -42,5 +44,21 @@ public class SubjectServiceImplTest {
         Ticket ticket = subjectService.postUserSubjectResult("1", s);
 
         System.out.println(ticket);
+    }
+
+    @Transactional
+    @Test
+    public void addBatchSubject() {
+        List<Subject> list = new ArrayList<>(100);
+        for (int i = 1; i <= 100; i++) {
+            list.add(Subject.builder()
+                    .id((long) i)
+                    .content(String.valueOf(i))
+                    .title(String.valueOf(i))
+                    .type(1)
+                    .answer("A")
+                    .build());
+        }
+        subjectService.addBatchSubject(list);
     }
 }

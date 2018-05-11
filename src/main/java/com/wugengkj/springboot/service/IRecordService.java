@@ -38,4 +38,9 @@ public interface IRecordService extends IService<Record> {
      * @return
      */
     boolean updateBatchIsTrue(String openId, Map<String, Integer> results);
+
+    /**
+     * 清理缓存
+     */
+    void removeCache();
 }

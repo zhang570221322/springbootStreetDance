@@ -1,6 +1,7 @@
 package com.wugengkj.springboot.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Data
 public class Subject {
-    @TableId
+    @TableId(type = IdType.INPUT)
     private Long id;
     private String title;
     private String content;

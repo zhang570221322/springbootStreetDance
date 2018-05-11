@@ -53,7 +53,7 @@ public class AccessTokenUtil {
      */
     public static String getOpenId(String code) {
         //方便测试
-        return "1";
+        return code;
 //        if (code != null && !code.isEmpty()) {
 //            JSONObject json;
 //            BufferedReader reader;
@@ -104,7 +104,7 @@ public class AccessTokenUtil {
     public static int ticketId(int subjectSuccessNum, int subjectTotal, int ticketTotal) {
         if (subjectSuccessNum <= subjectTotal) {
             return (int) Math.ceil(ticketTotal * (subjectSuccessNum / subjectTotal));
-    }
+        }
         return -1;
     }
 

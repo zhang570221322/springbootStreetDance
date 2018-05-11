@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Data
 public class ResponseInfoVO<T> {
-    private Integer code;
+    private String ret;
     private String msg;
     private T data;
 
@@ -31,7 +31,7 @@ public class ResponseInfoVO<T> {
      * @return 响应信息
      */
     public static <T> ResponseInfoVO success(T data) {
-        return ResponseInfoVO.builder().data(data).code(1).msg("success").build();
+        return ResponseInfoVO.builder().data(data).ret("200").msg("success").build();
     }
 
     /**
@@ -42,7 +42,7 @@ public class ResponseInfoVO<T> {
      * @return 响应信息
      */
     public static <T> ResponseInfoVO fail(T data) {
-        return ResponseInfoVO.builder().data(data).code(0).msg("fail").build();
+        return ResponseInfoVO.builder().data(data).ret("500").msg("fail").build();
     }
 
     /**

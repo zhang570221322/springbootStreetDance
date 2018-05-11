@@ -1,6 +1,7 @@
 package com.wugengkj.springboot.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,9 +23,13 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class Record {
+    @TableId
     private String openId;
+    @TableId
     private Long subjectId;
     private Integer isTrue;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 }

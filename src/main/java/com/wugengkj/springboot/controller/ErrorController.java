@@ -88,9 +88,9 @@ public class ErrorController extends AbstractErrorController {
         } else {
             // 转换为未识别异常
             template = ErrorTemplateVO.builder()
-                    .error(ErrorStatus.SYS_INNER_ERROR.getError())
-                    .code(ErrorStatus.SYS_INNER_ERROR.getCode())
-                    .message(ErrorStatus.SYS_INNER_ERROR.getMessage())
+                    .error(ErrorStatus.GLOBAL_ERROR.getError())
+                    .code(ErrorStatus.GLOBAL_ERROR.getCode())
+                    .message(ErrorStatus.GLOBAL_ERROR.getMessage())
                     .exception(exception.getClass().getName())
                     .path(errorAttributes.get("path").toString())
                     .build();

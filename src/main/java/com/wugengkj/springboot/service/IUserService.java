@@ -15,10 +15,9 @@ public interface IUserService extends IService<User> {
      * 添加用户信息
      *
      * @param user 用户信息
-     * @param code 标识符
      * @return 是否添加成功
      */
-   boolean addUser(User user, String code);
+   boolean addUser(User user);
 
     /**
      * 查询指定openId信息
@@ -44,4 +43,17 @@ public interface IUserService extends IService<User> {
      */
     boolean updateUserStatus(User user);
 
+    /**
+     * 查询指定列是否存在
+     *
+     * @param colName 列名
+     * @param colVal 列值
+     * @return
+     */
+    User queryByOrderCol(String colName, String colVal);
+
+    /**
+     * 清理缓存
+     */
+    void removeCache();
 }

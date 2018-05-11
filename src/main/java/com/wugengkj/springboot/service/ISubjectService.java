@@ -38,4 +38,17 @@ public interface ISubjectService extends IService<Subject> {
      */
     Ticket postUserSubjectResult(String openId, Map<Long, String> results);
 
+    /**
+     * 添加题目
+     *
+     * @param list
+     * @return
+     */
+    boolean addBatchSubject(List<Subject> list);
+
+    /**
+     * 清理缓存
+     */
+    void removeCache();
+
 }

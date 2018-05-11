@@ -14,7 +14,7 @@ public enum  SubjectResultStatus {
     // 答题结果
     NO_ANSWER(-1, "未作答"),
     ANSWER_FAIL(0, "答题错误"),
-    ANSWER_SUCCESS(0, "答题正确"),
+    ANSWER_SUCCESS(1, "答题正确"),
     ;
     private Integer code;
     private String name;
