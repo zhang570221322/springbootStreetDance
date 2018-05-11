@@ -24,6 +24,7 @@ public enum ErrorStatus {
     USER_PHONE_EXIST_ERROR(500, "500", "系统错误", "手机号已存在"),
     USER_PHONE_VALID_ERROR(500, "500", "系统错误", "手机号验证无效"),
     USER_QQ_EXIST_ERROR(500, "500", "系统错误", "QQ号已存在"),
+    USER_NO_POST_INFO_ERROR(500, "500", "系统错误", "用户尚未提交信息"),
     ;
 
     private Integer type;

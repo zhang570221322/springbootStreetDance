@@ -1,10 +1,12 @@
 package com.wugengkj.dance.controller;
 
+import com.wugengkj.dance.common.dto.UserInfoDTO;
 import com.wugengkj.dance.common.enums.ErrorStatus;
 import com.wugengkj.dance.common.enums.UserStatus;
 import com.wugengkj.dance.common.exception.GlobalException;
 import com.wugengkj.dance.common.vo.ResponseInfoVO;
 import com.wugengkj.dance.entity.Subject;
+import com.wugengkj.dance.entity.Ticket;
 import com.wugengkj.dance.entity.User;
 import com.wugengkj.dance.service.ISubjectService;
 import com.wugengkj.dance.service.ITicketService;
@@ -12,6 +14,7 @@ import com.wugengkj.dance.service.IUserService;
 import com.wugengkj.dance.utils.AccessTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,10 +81,18 @@ public class UserController {
         return b ? ResponseInfoVO.success(randomList) : ResponseInfoVO.fail(false);
     }
 
-    @ApiOperation("获取用户得票信息")
-    @PostMapping(value = "ticket")
-    public ResponseInfoVO getUserTicket(@RequestParam("code") String code) {
+    @ApiOperation("获取用户信息(包含已获得票的信息)")
+    @PostMapping(value = "info")
+    public ResponseInfoVO getUserInfo(@RequestParam("code") String code) {
         String openId = AccessTokenUtil.getOpenId(code);
-        return ResponseInfoVO.success(ticketService.queryOneByOpenId(openId));
+        User user = userService.queryOneByOpenId(openId);
+        UserInfoDTO build = UserInfoDTO.builder().build();
+        if (user != null) {
+            Ticket ticket = ticketService.queryOneByOpenId(openId);
+            BeanUtils.copyProperties(user, build);
+            build.setTicket(ticket);
+            return ResponseInfoVO.success(build);
+        }
+        throw new GlobalException(ErrorStatus.USER_NO_POST_INFO_ERROR);
     }
 }
