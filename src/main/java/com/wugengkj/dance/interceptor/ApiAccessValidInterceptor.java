@@ -30,8 +30,8 @@ public class ApiAccessValidInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         log.info("-----开始进行API访问权限验证-----");
-        String token = httpServletRequest.getParameter("token");
-        String appid = httpServletRequest.getParameter("appid");
+        String token = httpServletRequest.getHeader("token");
+        String appid = httpServletRequest.getHeader("appid");
 
         String s = businessService.queryAppidById(1L);
         if (s.equals(appid) && AccessTokenUtil.valid(token)) {

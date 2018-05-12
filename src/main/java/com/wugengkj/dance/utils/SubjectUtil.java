@@ -6,6 +6,7 @@ package com.wugengkj.dance.utils;
  */
 
 
+import com.wugengkj.dance.common.constants.GlobalConstants;
 import com.wugengkj.dance.common.enums.ticketType;
 import com.wugengkj.dance.entity.Subject;
 import com.wugengkj.dance.service.ISubjectService;
@@ -33,22 +34,18 @@ public class SubjectUtil {
      * 一共答对9道题(全部题都答对了)获得VIP内场的票
      *
      * @param subjectSuccessNum 正确题目数
-     * @param subjectTotal      用户答题数目
-     * @param ticketTotal       票总类型数
      * @return 得票类型
      */
-    public int ticketId(int subjectSuccessNum, int subjectTotal, int ticketTotal) {
-        if (subjectSuccessNum>=3) {
-            if (subjectSuccessNum<6){
-                 return ticketType.ORDINARY.getCode();
+    public int ticketId(int subjectSuccessNum) {
+        if (subjectSuccessNum >= GlobalConstants.SUBJECT_NUM_BORDER_FIRST) {
+            if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_SECOND) {
+                return ticketType.ORDINARY.getCode();
             }
-            if (subjectSuccessNum>=6){
-                if (subjectSuccessNum<9){
-                    return ticketType.MEDIUM.getCode();
-                }
-                if (subjectSuccessNum==9){
-                    return  ticketType._NONE.getCode();
-                }
+            if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
+                return ticketType.MEDIUM.getCode();
+            }
+            if (subjectSuccessNum == GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
+                return ticketType._NONE.getCode();
             }
 
         }
@@ -67,9 +64,9 @@ public class SubjectUtil {
         ArrayList<Subject> easyList = iSubjectService.queryEasyList(-1);
         ArrayList<Subject> mediumList = iSubjectService.queryMediumList(-1);
         ArrayList<Subject> hardList = iSubjectService.queryHardList(-1);
-        list.addAll(getRandomList(easyList,3));
-        list.addAll(getRandomList(mediumList,3));
-        list.addAll(getRandomList(hardList,3));
+        list.addAll(getRandomList(easyList, 3));
+        list.addAll(getRandomList(mediumList, 3));
+        list.addAll(getRandomList(hardList, 3));
 
         return list;
     }

@@ -8,6 +8,8 @@ package com.wugengkj.dance.common.constants;
  * <p>version: 1.0</p>
  */
 public class GlobalConstants {
-    public final static int PRE_USER_TICKET_NUM = 9;
-    public final static int TICKET_TYPE_NUM = 4;
+    public final static int SUBJECT_NUM_BORDER_FIRST = 3;
+    public final static int SUBJECT_NUM_BORDER_SECOND = 6;
+    public final static int SUBJECT_NUM_BORDER_THIRD = 9;
+
 }

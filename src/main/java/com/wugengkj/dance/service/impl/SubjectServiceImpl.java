@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.wugengkj.dance.common.constants.GlobalConstants;
 import com.wugengkj.dance.common.enums.ErrorStatus;
 import com.wugengkj.dance.common.enums.SubjectResultStatus;
+import com.wugengkj.dance.common.enums.SubjectStatus;
 import com.wugengkj.dance.common.enums.UserStatus;
 import com.wugengkj.dance.common.exception.GlobalException;
 import com.wugengkj.dance.entity.Record;
@@ -17,7 +18,9 @@ import com.wugengkj.dance.service.ISubjectService;
 import com.wugengkj.dance.service.ITicketService;
 import com.wugengkj.dance.service.IUserService;
 import com.wugengkj.dance.utils.AccessTokenUtil;
+import com.wugengkj.dance.utils.SubjectUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -36,6 +39,9 @@ import java.util.stream.Collectors;
 @CacheConfig(cacheNames = "subjects")
 @Slf4j
 public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> implements ISubjectService {
+
+    @Autowired
+    private SubjectUtil subjectUtil;
 
     @Autowired
     private IRecordService recordService;
@@ -58,7 +64,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         List<Subject> subjectList = this.queryList(-1);
         List<Subject> list = new ArrayList<>();
         int i = userService.queryUserStatus(openId);
-        if (i == UserStatus.USER_ANSWERING.getCode()) {
+        if (i == UserStatus.USER_ANSWERING.getCode() || i == UserStatus.USER_ANSWERED.getCode()) {
             List<Record> records = recordService.queryListByOpenId(openId);
             log.info("检测用户" + openId + "状态为" + UserStatus.USER_ANSWERING.getName() + "，" +
                     "获取已保存题目编号为" + records.stream().map(Record::getSubjectId).collect(Collectors.toList()).toString());
@@ -66,14 +72,12 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
                 list.add(subjectList.get((int) (record.getSubjectId() - 1)));
             }
             return list;
-        } else {
+        } else if (i == UserStatus.USER_NO_ANSWER.getCode()) {
             // 随机获取题目
-            List<Integer> list1 = AccessTokenUtil.randomSubject();
-            for (Integer integer : list1) {
-                list.add(subjectList.get(integer));
-            }
+            list = subjectUtil.randomSubject();
+
             log.info("检测用户" + openId + "状态为" + UserStatus.USER_ANSWERING.getName() + "，" +
-                    "随机生成题目编号为" + list1.toString());
+                    "随机生成题目编号为" + list.toString());
 
             // 修改用户状态为答题中
             User user = userService.queryOneByOpenId(openId);
@@ -86,6 +90,8 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
             List<Long> subjects = list.stream().map(Subject::getId).collect(Collectors.toList());
             recordService.addBatchByOpenIdAndSubjects(openId, subjects);
             return list;
+        } else {
+            return null;
         }
     }
 
@@ -115,19 +121,25 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
     }
 
     @Override
-    public Ticket postUserSubjectResult(String openId, Map<Long, String> results) {
+    public Map<String, Object> postUserSubjectResult(String openId, Map<Long, String> results) {
+        Map<String, Object> ticketMap = new HashMap<>();
+        // 获取用户信息(用于用户状态判断)
+        User user = userService.queryOneByOpenId(openId);
+        if (UserStatus.USER_ANSWERED.getCode().equals(user.getStatus())) {
+            log.error("用户" + openId +"已答题!");
+            return null;
+        }
         // 结果比较
         log.info("比较用户" + openId + "提交结果，比对中...");
         Map<String, Integer> resultMap = validSubjectResult(results);
+        ticketMap.put("results", resultMap);
         // 更新答题记录
         log.info("开始更新用户" + openId + "答题结果，正在更新...");
         boolean b = recordService.updateBatchIsTrue(openId, resultMap);
-        // 计算用户票并添加
-        User user = userService.queryOneByOpenId(openId);
-        if (b) {
+        if (b && UserStatus.USER_ANSWERING.getCode().equals(user.getStatus())) {
             log.info("更新用户答题成功!");
             Integer successNums = resultMap.get("SUCCESS_NUMS");
-            int i = AccessTokenUtil.ticketId(successNums, GlobalConstants.PRE_USER_TICKET_NUM, GlobalConstants.TICKET_TYPE_NUM);
+            int i = subjectUtil.ticketId(successNums);
 
             // 修改用户答题状态为答题完成
             log.info("更新用户" + openId + "答题状态为" + UserStatus.USER_ANSWERED.getName());
@@ -141,17 +153,72 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
             if (b1) {
                 // 获取票信息
                 log.info("生成用户所得票信息成功!");
-                return ticketService.queryOneByOpenId(openId);
+                Ticket ticket = ticketService.queryOneByOpenId(openId);
+                ticketMap.put("ticket", ticket);
+                return ticketMap;
             }
             throw new GlobalException(ErrorStatus.GLOBAL_ERROR);
         }
-        log.error("更新用户答题失败!");
+        log.error("更新用户" + openId +"答题记录失败!");
         return null;
     }
 
     @Override
     public boolean addBatchSubject(List<Subject> list) {
         return insertBatch(list);
+    }
+
+    /**
+     * 获取简单的题目
+     *
+     * @param key
+     * @return
+     */
+    @Cacheable(key = "#p0")
+    @Override
+    public ArrayList<Subject> queryEasyList(int key) {
+
+        return (ArrayList<Subject>) queryList(-1)
+                .stream()
+                .filter(subject ->
+                        subject.getType().equals(SubjectStatus.EASY.getCode())
+                )
+                .collect(Collectors.toList());
+
+    }
+
+    /**
+     * 获取中等题目
+     *
+     * @param key
+     * @return
+     */
+    @Cacheable(key = "#p0")
+    @Override
+    public ArrayList<Subject> queryMediumList(int key) {
+        return (ArrayList<Subject>) queryList(-1)
+                .stream()
+                .filter(subject ->
+                        subject.getType().equals(SubjectStatus.MEDIUM.getCode())
+                )
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取难题
+     *
+     * @param key
+     * @return
+     */
+    @Cacheable(key = "#p0")
+    @Override
+    public ArrayList<Subject> queryHardList(int key) {
+        return (ArrayList<Subject>) queryList(-1)
+                .stream()
+                .filter(subject ->
+                        subject.getType().equals(SubjectStatus.HARD.getCode())
+                )
+                .collect(Collectors.toList());
     }
 
     @CacheEvict(allEntries = true)

@@ -2,8 +2,8 @@
 DROP TABLE IF EXISTS subject;
 CREATE TABLE subject (
   `id` BIGINT PRIMARY KEY,
-  `title` VARCHAR(16) NOT NULL COMMENT '题头',
-  `content` VARCHAR(16) NOT NULL COMMENT '题干',
+  `title` VARCHAR(128) NOT NULL COMMENT '题头',
+  `content` VARCHAR(128) NOT NULL COMMENT '题干',
   `answer` VARCHAR(11) NOT NULL COMMENT '答案',
   `type` TINYINT NOT NULL DEFAULT 1 COMMENT '等级(简单:1/中等:2/困难:3)'
 ) ENGINE=innodb, CHARSET=utf8mb4, COMMENT='题目表';

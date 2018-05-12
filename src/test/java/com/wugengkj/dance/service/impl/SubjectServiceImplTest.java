@@ -41,11 +41,6 @@ public class SubjectServiceImplTest {
     @Transactional
     @Test
     public void validSubjectResult() {
-        Map s = new HashMap<Long, String>();
-        s.put(1L, "A");
-        Ticket ticket = subjectService.postUserSubjectResult("1", s);
-
-        System.out.println(ticket);
     }
 
     @Transactional

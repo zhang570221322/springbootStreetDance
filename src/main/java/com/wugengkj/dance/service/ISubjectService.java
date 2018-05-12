@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.wugengkj.dance.entity.Subject;
 import com.wugengkj.dance.entity.Ticket;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public interface ISubjectService extends IService<Subject> {
      * @param results 最终结果
      * @return
      */
-    Ticket postUserSubjectResult(String openId, Map<Long, String> results);
+    Map<String, Object> postUserSubjectResult(String openId, Map<Long, String> results);
 
     /**
      * 添加题目
@@ -50,5 +51,27 @@ public interface ISubjectService extends IService<Subject> {
      * 清理缓存
      */
     void removeCache();
+
+    /**
+     * 获取简单的题目
+     * @param key
+     * @return
+     */
+    ArrayList<Subject> queryEasyList(int key);
+
+    /**
+     * 获取中等题目
+     * @param key
+     * @return
+     */
+    ArrayList<Subject> queryMediumList(int key);
+
+    /**
+     * 获取难题
+     * @param key
+     * @return
+     */
+    ArrayList<Subject> queryHardList(int key);
+
 
 }

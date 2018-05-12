@@ -71,6 +71,7 @@ public class UserController {
                 .qq(qq)
                 .name(name)
                 .status(UserStatus.USER_NO_ANSWER.getCode())
+                .ticketId(-1L)
                 .build();
         boolean b = userService.addUser(build);
         List<Subject> randomList = subjectService.getRandomList(openId);
