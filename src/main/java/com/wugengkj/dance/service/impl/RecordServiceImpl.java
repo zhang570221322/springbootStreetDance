@@ -8,6 +8,7 @@ import com.wugengkj.dance.entity.Record;
 import com.wugengkj.dance.mapper.RecordMapper;
 import com.wugengkj.dance.service.IRecordService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -28,6 +29,9 @@ import java.util.Map;
 @Slf4j
 public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> implements IRecordService {
 
+    @Autowired
+    private IRecordService recordService;
+
     @Cacheable(key = "#p0")
     @Override
     public List<Record> queryListByOpenId(String openId) {
@@ -46,13 +50,13 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         }
         log.info("批量插入用户" + openId + "答题记录，题目编号:" + subjects.toString());
         boolean b = insertBatch(list);
-        forceUpdateCache(openId, true);
+        removeCache();
         return b;
     }
 
     @Override
     public boolean updateBatchIsTrue(String openId, Map<String, Integer> results) {
-        List<Record> list = queryListByOpenId(openId);
+        List<Record> list = recordService.queryListByOpenId(openId);
         if (list == null || list.size() == 0) {
             return false;
         }
@@ -65,17 +69,8 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
                 log.info("更新用户" + openId + "答题记录，题目编号为" + next.getSubjectId() + "，更新结果为" + result);
             }
         }
-        forceUpdateCache(openId, true);
+        recordService.removeCache();
         return i == 1;
-    }
-
-    @CachePut(key = "#p0")
-    public List<Record> forceUpdateCache(String openId, boolean b) {
-        if (openId != null && !openId.isEmpty() && b) {
-            log.info("强制更新records缓存!");
-            return selectList(new EntityWrapper<Record>().eq("open_id", openId));
-        }
-        return Lists.newArrayList();
     }
 
     @CacheEvict(allEntries = true)

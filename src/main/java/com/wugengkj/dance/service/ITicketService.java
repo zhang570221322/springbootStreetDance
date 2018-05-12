@@ -3,6 +3,8 @@ package com.wugengkj.dance.service;
 import com.baomidou.mybatisplus.service.IService;
 import com.wugengkj.dance.entity.Ticket;
 
+import java.util.List;
+
 /**
  * @author leaf
  * <p>date: 2018-05-10 14:21</p>
@@ -26,6 +28,13 @@ public interface ITicketService extends IService<Ticket> {
      * @return 成功/失败
      */
     boolean reduceOneTicket(Long ticketId, Long businessId);
+
+    /**
+     * 获取票类型
+     *
+     * @return
+     */
+     List<Ticket> queryList(int key);
 
     /**
      * 清理缓存

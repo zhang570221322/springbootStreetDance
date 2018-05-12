@@ -64,7 +64,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
 
     @Override
     public List<Subject> getRandomList(String openId) {
-        List<Subject> subjectList = this.queryList(-1);
+        List<Subject> subjectList = subjectService.queryList(-1);
         List<Subject> list = new ArrayList<>();
         int i = userService.queryUserStatus(openId);
         if (i == UserStatus.USER_ANSWERING.getCode() || i == UserStatus.USER_ANSWERED.getCode()) {
@@ -106,7 +106,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
      */
     private Map<String, Integer> validSubjectResult(Map<Long, String> userResults) {
         Map<String, Integer> results = new HashMap<>();
-        List<Subject> cacheSubjects = queryList(-1);
+        List<Subject> cacheSubjects = subjectService.queryList(-1);
         int i = 0, j = 0;
         for (Map.Entry<Long, String> next : userResults.entrySet()) {
             Subject subject = cacheSubjects.get((int) (next.getKey() - 1));

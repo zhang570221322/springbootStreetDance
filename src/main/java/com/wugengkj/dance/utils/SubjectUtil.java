@@ -61,9 +61,9 @@ public class SubjectUtil {
      */
     public List<Subject> randomSubject() {
         List<Subject> list = new ArrayList<>();
-        ArrayList<Subject> easyList = iSubjectService.queryEasyList(-1);
-        ArrayList<Subject> mediumList = iSubjectService.queryMediumList(-1);
-        ArrayList<Subject> hardList = iSubjectService.queryHardList(-1);
+        ArrayList<Subject> easyList = iSubjectService.queryEasyList();
+        ArrayList<Subject> mediumList = iSubjectService.queryMediumList();
+        ArrayList<Subject> hardList = iSubjectService.queryHardList();
         list.addAll(getRandomList(easyList, 3));
         list.addAll(getRandomList(mediumList, 3));
         list.addAll(getRandomList(hardList, 3));

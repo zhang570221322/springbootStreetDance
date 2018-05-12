@@ -7,6 +7,7 @@ import com.wugengkj.dance.entity.User;
 import com.wugengkj.dance.mapper.UserMapper;
 import com.wugengkj.dance.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -22,11 +23,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
+    @Autowired
+    private IUserService userService;
+
     @Override
     public boolean addUser(User user) {
         // 用户提交个人信息
         boolean b = insert(user);
-        forceUpdateCache(user.getOpenId(), b);
+        userService.removeCache();
         return b;
     }
 
@@ -48,7 +52,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public boolean updateUserStatus(User user) {
         boolean b = updateById(user);
-        forceUpdateCache(user.getOpenId(), b);
+        userService.removeCache();
         return b;
     }
 
@@ -61,14 +65,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public void removeCache() {
         log.info("清理users缓存!");
-    }
-
-    @CachePut(key = "#p0")
-    public User forceUpdateCache(String openId, boolean b) {
-        if (openId != null && !openId.isEmpty() && b) {
-            return selectById(openId);
-        }
-        return User.builder().build();
     }
 
 }

@@ -5,6 +5,7 @@ import com.wugengkj.dance.entity.Business;
 import com.wugengkj.dance.mapper.BusinessMapper;
 import com.wugengkj.dance.service.IBusinessService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> implements IBusinessService {
 
+    @Autowired
+    private IBusinessService businessService;
+
     @Cacheable(key   = "#p0")
     @Override
     public Business queryOneById(Long id) {
@@ -30,7 +34,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
 
     @Override
     public String queryAppidById(Long id) {
-        Business business = queryOneById(id);
+        Business business = businessService.queryOneById(id);
         String appid = "";
         if (business != null) {
             appid = business.getAppid();
@@ -47,7 +51,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
             boolean b = updateById(Business.builder().id(businessId).surplusTicket(surplusTicket - 1).build());
             if (b) {
                 log.info("强制更新business缓存!");
-                forceUpdateCache(businessId, b);
+                businessService.removeCache();
             }
             return b;
         } else {
@@ -60,13 +64,4 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
     public void removeCache() {
         log.info("清理business缓存信息!");
     }
-
-    @CachePut(key = "#p0")
-    public Business forceUpdateCache(Long id, boolean b) {
-        if (id != null && b) {
-            return selectById(id);
-        }
-        return queryOneById(id);
-    }
-
 }

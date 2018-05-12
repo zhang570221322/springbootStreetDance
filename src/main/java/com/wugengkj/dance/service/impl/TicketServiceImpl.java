@@ -1,5 +1,6 @@
 package com.wugengkj.dance.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.wugengkj.dance.entity.Ticket;
 import com.wugengkj.dance.mapper.TicketMapper;
@@ -12,6 +13,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author leaf
  * <p>date: 2018-05-10 14:22</p>
@@ -21,6 +24,9 @@ import org.springframework.stereotype.Service;
 @CacheConfig(cacheNames = "tickets")
 @Slf4j
 public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> implements ITicketService {
+
+    @Autowired
+    private ITicketService ticketService;
 
     @Autowired
     private IBusinessService businessService;
@@ -44,10 +50,20 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
         if (currentNum > 0) {
             ticket.setCurrentNum(currentNum - 1);
             // 更新商家总票数
-            return updateById(ticket) && businessService.reduceOneTicket(businessId);
+            boolean b = updateById(ticket) && businessService.reduceOneTicket(businessId);
+            if (b) {
+                ticketService.removeCache();
+            }
+            return b;
         } else {
             return false;
         }
+    }
+
+    @Cacheable(key = "#p0")
+    @Override
+    public List<Ticket> queryList(int key) {
+        return selectList(new EntityWrapper<>());
     }
 
     @CacheEvict(allEntries = true)
