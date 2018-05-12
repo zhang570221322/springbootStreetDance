@@ -62,7 +62,8 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         log.info("添加subjects缓存!");
         return super.selectList(new EntityWrapper<>());
     }
-
+    //增加事务
+    @Transactional
     @Override
     public List<Subject> getRandomList(String openId) {
         List<Subject> subjectList = subjectService.queryList(-1);
@@ -75,6 +76,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
             for (Record record : records) {
                 list.add(subjectList.get((int) (record.getSubjectId() - 1)));
             }
+            //此时也是内存中的题目
             return list;
         } else if (i == UserStatus.USER_NO_ANSWER.getCode()) {
             // 随机获取题目

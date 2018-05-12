@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Subject {
+public class Subject  {
     @TableId(type = IdType.INPUT)
     private Long id;
     private String title;
