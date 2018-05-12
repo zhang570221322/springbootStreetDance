@@ -30,6 +30,7 @@ public class User {
     private Integer age;
     private String phone;
     private String qq;
+    private String avatar;
     private Integer status;
     private Long ticketId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -14,10 +14,16 @@ import com.wugengkj.dance.service.IUserService;
 import com.wugengkj.dance.utils.AccessTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -31,6 +37,7 @@ import java.util.List;
 @RequestMapping("/user")
 @RestController
 @CrossOrigin
+@Validated
 public class UserController {
 
     @Autowired
@@ -51,11 +58,12 @@ public class UserController {
     @ApiOperation("提交用户信息")
     @PostMapping("post")
     public ResponseInfoVO getUserPostInfo(@RequestParam("code") String code,
-                                          @RequestParam("name") String name,
-                                          @RequestParam("age") Integer age,
-                                          @RequestParam("sex") String sex,
-                                          @RequestParam("phone") String phone,
-                                          @RequestParam("qq") String qq) {
+                                          @Size(min = 2, message = "姓名长度不能小于2") @RequestParam("name") String name,
+                                          @Range(max = 150, message = "年龄最大不超过150岁") @RequestParam("age") Integer age,
+                                          @Pattern(regexp = "[男|女]", message = "无法识别该性别")@RequestParam("sex") String sex,
+                                          @Pattern(regexp = "^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$", message = "无法识别该手机号") @RequestParam("phone") String phone,
+                                          @RequestParam("qq") String qq,
+                                          @RequestParam("avatar") String avatar) {
         String openId = AccessTokenUtil.getOpenId(code);
         if (userService.queryByOrderCol("phone", phone) != null) {
             throw new GlobalException(ErrorStatus.USER_PHONE_EXIST_ERROR);
@@ -69,6 +77,7 @@ public class UserController {
                 .age(age)
                 .phone(phone)
                 .qq(qq)
+                .avatar(avatar)
                 .name(name)
                 .status(UserStatus.USER_NO_ANSWER.getCode())
                 .ticketId(-1L)
@@ -76,9 +85,7 @@ public class UserController {
         boolean b = userService.addUser(build);
         List<Subject> randomList = subjectService.getRandomList(openId);
         // 置空答案
-        for(Subject subject : randomList) {
-            subject.setAnswer(null);
-        }
+        randomList.stream().forEach(subject -> subject.setAnswer(null));
         return b ? ResponseInfoVO.success(randomList) : ResponseInfoVO.fail(false);
     }
 

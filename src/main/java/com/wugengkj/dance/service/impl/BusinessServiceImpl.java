@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author leaf
@@ -42,6 +43,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
         return appid;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public synchronized boolean reduceOneTicket(Long businessId) {
         Business business = selectById(businessId);

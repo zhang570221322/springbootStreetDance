@@ -11,6 +11,7 @@ import com.wugengkj.dance.common.enums.ticketType;
 import com.wugengkj.dance.entity.Subject;
 import com.wugengkj.dance.service.ISubjectService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,15 +61,21 @@ public class SubjectUtil {
      * @return
      */
     public List<Subject> randomSubject() {
-        List<Subject> list = new ArrayList<>();
+        ArrayList<Subject> list = new ArrayList<>();
+        ArrayList<Subject> listRet = new ArrayList<>();
         ArrayList<Subject> easyList = iSubjectService.queryEasyList();
         ArrayList<Subject> mediumList = iSubjectService.queryMediumList();
         ArrayList<Subject> hardList = iSubjectService.queryHardList();
         list.addAll(getRandomList(easyList, 3));
         list.addAll(getRandomList(mediumList, 3));
         list.addAll(getRandomList(hardList, 3));
+        list.stream().forEach(subject -> {
+            Subject s = new Subject();
+            BeanUtils.copyProperties(subject, s);
+            listRet.add(s);
+        });
 
-        return list;
+        return listRet;
     }
 
     /**

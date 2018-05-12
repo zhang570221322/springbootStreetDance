@@ -34,9 +34,7 @@ public class SubjectController {
         List<Subject> randomList = subjectService.getRandomList(openId);
 
         // 置空答案
-        for(Subject subject : randomList) {
-            subject.setAnswer(null);
-        }
+        randomList.stream().forEach(subject -> subject.setAnswer(null));
 
         return ResponseInfoVO.success(randomList);
     }

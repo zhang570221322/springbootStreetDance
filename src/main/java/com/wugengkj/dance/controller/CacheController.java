@@ -30,6 +30,8 @@ public class CacheController {
     private ISubjectService subjectService;
     @Autowired
     private ITicketService ticketService;
+    @Autowired
+    private IStarService starService;
 
     @ApiOperation("清理所有缓存信息")
     @PostMapping("clean")
@@ -39,6 +41,7 @@ public class CacheController {
         recordService.removeCache();
         subjectService.removeCache();
         ticketService.removeCache();
+        starService.removeCache();
         return ResponseInfoVO.success(true);
     }
 }

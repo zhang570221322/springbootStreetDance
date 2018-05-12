@@ -110,12 +110,14 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         int i = 0, j = 0;
         for (Map.Entry<Long, String> next : userResults.entrySet()) {
             Subject subject = cacheSubjects.get((int) (next.getKey() - 1));
-            if (subject.getAnswer().equalsIgnoreCase(next.getValue())) {
-                results.put(subject.getId().toString(), SubjectResultStatus.ANSWER_SUCCESS.getCode());
-                j++;
-            } else {
-                results.put(subject.getId().toString(), SubjectResultStatus.ANSWER_FAIL.getCode());
-                i++;
+            if (subject != null) {
+                if (subject.getAnswer().equalsIgnoreCase(next.getValue())) {
+                    results.put(subject.getId().toString(), SubjectResultStatus.ANSWER_SUCCESS.getCode());
+                    j++;
+                } else {
+                    results.put(subject.getId().toString(), SubjectResultStatus.ANSWER_FAIL.getCode());
+                    i++;
+                }
             }
         }
         results.put("SUCCESS_NUMS", j);
@@ -130,7 +132,9 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         User user = userService.queryOneByOpenId(openId);
         if (UserStatus.USER_ANSWERED.getCode().equals(user.getStatus())) {
             log.error("用户" + openId +"已答题!");
-            return null;
+            Ticket ticket = ticketService.queryOneByOpenId(openId);
+            ticketMap.put("ticket", ticket);
+            return ticketMap;
         }
         // 结果比较
         log.info("比较用户" + openId + "提交结果，比对中...");

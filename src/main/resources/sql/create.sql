@@ -17,6 +17,7 @@ CREATE TABLE user (
   `age` INTEGER DEFAULT 18 COMMENT '年龄',
   `phone` VARCHAR(16) COMMENT '手机号',
   `qq` VARCHAR(16) COMMENT 'qq号',
+  `avatar` VARCHAR(225) COMMENT '头像',
   `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态(未答题:0/答题中:1/已答题:2)',
   `ticket_id` BIGINT DEFAULT -1 COMMENT '票id',
   `create_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
@@ -67,3 +68,20 @@ CREATE TABLE business (
   `create_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
   UNIQUE INDEX uniq_name(name)
 ) ENGINE=innodb, CHARSET=utf8mb4, COMMENT='商户表';
+
+-- 明星表
+DROP TABLE IF EXISTS star;
+CREATE TABLE star (
+  `id` BIGINT PRIMARY KEY,
+  `name` VARCHAR(16) NOT NULL COMMENT '名字',
+  `content` VARCHAR(255) NOT NULL COMMENT '内容',
+  `blank1` TEXT DEFAULT NULL COMMENT '内容1',
+  `blank2` TEXT DEFAULT NULL COMMENT '内容2',
+  `blank3` TEXT DEFAULT NULL COMMENT '内容3',
+  `blank4` TEXT DEFAULT NULL COMMENT '内容4',
+  `blank5` TEXT DEFAULT NULL COMMENT '内容5',
+  `blank6` TEXT DEFAULT NULL COMMENT '内容6',
+  `blank7` TEXT DEFAULT NULL COMMENT '内容7',
+  `blank8` TEXT DEFAULT NULL COMMENT '内容8',
+  UNIQUE INDEX uniq_name(name)
+) ENGINE=innodb, CHARSET=utf8mb4, COMMENT='明星表';
