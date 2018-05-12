@@ -26,6 +26,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -125,6 +126,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         return results;
     }
 
+    @Transactional
     @Override
     public Map<String, Object> postUserSubjectResult(String openId, Map<Long, String> results) {
         Map<String, Object> ticketMap = new HashMap<>();

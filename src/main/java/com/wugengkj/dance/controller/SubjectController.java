@@ -5,6 +5,7 @@ import com.wugengkj.dance.common.vo.ResponseInfoVO;
 import com.wugengkj.dance.entity.Subject;
 import com.wugengkj.dance.service.ISubjectService;
 import com.wugengkj.dance.utils.AccessTokenUtil;
+import com.wugengkj.dance.utils.SubjectUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,16 @@ import java.util.Map;
 public class SubjectController {
     @Autowired
     private ISubjectService subjectService;
-
+    @Autowired
+    private SubjectUtil subjectUtil;
     @ApiOperation("获取用户题目信息")
     @PostMapping("get")
     public ResponseInfoVO getUserSubjects(@RequestParam("code") String code) {
         String openId = AccessTokenUtil.getOpenId(code);
-        List<Subject> randomList = subjectService.getRandomList(openId);
+        //得到随机对象
+        List<Subject> temp = subjectService.getRandomList(openId);
+        //复制对象
+        List<Subject> randomList = subjectUtil.copySubjectList(temp);
 
         // 置空答案
         randomList.stream().forEach(subject -> subject.setAnswer(null));

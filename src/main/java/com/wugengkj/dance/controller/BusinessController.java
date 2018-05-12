@@ -29,7 +29,7 @@ public class BusinessController {
     @PostMapping("info")
     public ResponseInfoVO getBusinessInfo() {
         Business business = businessService.queryOneById(1L);
-        // 置空关键信息
+        // 置空关键信息   也会置空内存里的。。。。汗
         business.setAppid(null);
         return ResponseInfoVO.success(business);
     }

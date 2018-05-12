@@ -40,17 +40,20 @@ public class SubjectUtil {
     public int ticketId(int subjectSuccessNum) {
         if (subjectSuccessNum >= GlobalConstants.SUBJECT_NUM_BORDER_FIRST) {
             if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_SECOND) {
+                //普通票
                 return ticketType.ORDINARY.getCode();
             }
             if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
+                //看台票
                 return ticketType.MEDIUM.getCode();
             }
             if (subjectSuccessNum == GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
+                //VIP票
                 return ticketType._NONE.getCode();
             }
 
         }
-        return -1;
+        return 0;
     }
 
     /**
@@ -62,20 +65,26 @@ public class SubjectUtil {
      */
     public List<Subject> randomSubject() {
         ArrayList<Subject> list = new ArrayList<>();
-        ArrayList<Subject> listRet = new ArrayList<>();
+
         ArrayList<Subject> easyList = iSubjectService.queryEasyList();
         ArrayList<Subject> mediumList = iSubjectService.queryMediumList();
         ArrayList<Subject> hardList = iSubjectService.queryHardList();
         list.addAll(getRandomList(easyList, 3));
         list.addAll(getRandomList(mediumList, 3));
         list.addAll(getRandomList(hardList, 3));
-        list.stream().forEach(subject -> {
+
+
+        return list;
+    }
+    public ArrayList<Subject> copySubjectList(List<Subject> subjects){
+        ArrayList<Subject> listRet = new ArrayList<>();
+        subjects.stream().forEach(subject -> {
             Subject s = new Subject();
             BeanUtils.copyProperties(subject, s);
             listRet.add(s);
         });
-
         return listRet;
+
     }
 
     /**
