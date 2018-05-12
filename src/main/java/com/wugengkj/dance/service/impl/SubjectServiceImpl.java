@@ -41,6 +41,9 @@ import java.util.stream.Collectors;
 public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> implements ISubjectService {
 
     @Autowired
+    private ISubjectService subjectService;
+
+    @Autowired
     private SubjectUtil subjectUtil;
 
     @Autowired
@@ -171,14 +174,11 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
     /**
      * 获取简单的题目
      *
-     * @param key
      * @return
      */
-    @Cacheable(key = "#p0")
     @Override
-    public ArrayList<Subject> queryEasyList(int key) {
-
-        return (ArrayList<Subject>) queryList(-1)
+    public ArrayList<Subject> queryEasyList() {
+        return (ArrayList<Subject>) subjectService.queryList( -1)
                 .stream()
                 .filter(subject ->
                         subject.getType().equals(SubjectStatus.EASY.getCode())
@@ -190,13 +190,11 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
     /**
      * 获取中等题目
      *
-     * @param key
      * @return
      */
-    @Cacheable(key = "#p0")
     @Override
-    public ArrayList<Subject> queryMediumList(int key) {
-        return (ArrayList<Subject>) queryList(-1)
+    public ArrayList<Subject> queryMediumList() {
+        return (ArrayList<Subject>) subjectService.queryList(-1)
                 .stream()
                 .filter(subject ->
                         subject.getType().equals(SubjectStatus.MEDIUM.getCode())
@@ -207,13 +205,11 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
     /**
      * 获取难题
      *
-     * @param key
      * @return
      */
-    @Cacheable(key = "#p0")
     @Override
-    public ArrayList<Subject> queryHardList(int key) {
-        return (ArrayList<Subject>) queryList(-1)
+    public ArrayList<Subject> queryHardList() {
+        return (ArrayList<Subject>) subjectService.queryList(-1)
                 .stream()
                 .filter(subject ->
                         subject.getType().equals(SubjectStatus.HARD.getCode())

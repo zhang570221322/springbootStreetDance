@@ -86,7 +86,8 @@ public class SubjectUtil {
         List<Object> newList = new ArrayList<>();
         int temp = 0;
         for (int i = 0; i < count; i++) {
-            temp = random.nextInt(paramList.size());//将产生的随机数作为被抽list的索引
+            //将产生的随机数作为被抽list的索引
+            temp = random.nextInt(paramList.size());
             if (!tempList.contains(temp)) {
                 tempList.add(temp);
                 newList.add(paramList.get(temp));

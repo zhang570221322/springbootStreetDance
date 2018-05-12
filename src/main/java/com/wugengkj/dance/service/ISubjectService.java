@@ -54,24 +54,24 @@ public interface ISubjectService extends IService<Subject> {
 
     /**
      * 获取简单的题目
-     * @param key
+     *
      * @return
      */
-    ArrayList<Subject> queryEasyList(int key);
+    ArrayList<Subject> queryEasyList();
 
     /**
      * 获取中等题目
-     * @param key
+     *
      * @return
      */
-    ArrayList<Subject> queryMediumList(int key);
+    ArrayList<Subject> queryMediumList();
 
     /**
      * 获取难题
-     * @param key
+     *
      * @return
      */
-    ArrayList<Subject> queryHardList(int key);
+    ArrayList<Subject> queryHardList();
 
 
 }
