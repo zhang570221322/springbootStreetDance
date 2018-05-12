@@ -52,7 +52,7 @@ public class BusinessControllerTest {
     public void info() throws Exception {
 
 
-        MvcResult result = mockMvc.perform(post("/business/info").param("code","111"))
+        MvcResult result = mockMvc.perform(post("/business/info"))
                 .andExpect(status().isOk())// 模拟向testRest发送get请求
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))// 预期返回值的媒体类型text/plain;charset=UTF-8
                 .andReturn();// 返回执行请求的结果
@@ -64,35 +64,20 @@ public class BusinessControllerTest {
      没有参数
 
      {
-     "code": 0,
-     "msg": "fail",
-     "data": {
-     "code": "2002",
-     "error": "HTTP错误",
-     "message": "缺少请求参数，请填写完整请求参数",
-     "detail": "org.springframework.web.bind.MissingServletRequestParameterException",
-     "exception": "code",
-     "path": ""
-     }
-     }
-
-     code=1111
-
-     {
-     "code": 1,
-     "msg": "success",
-     "data": {
-     "id": 1,
-     "name": "默认商家1",
-     "appid": null,
-     "content": "默认内容",
-     "detail": "默认细节",
-     "regular": "默认规则",
-     "address": "默认地址",
-     "ticketAddress": "默认领票地址",
-     "totalTicket": null,
-     "surplusTicket": null,
-     "createTime": 1525925971000
+     "ret":"200",
+     "msg":"success",
+     "data":{
+     "id":1,
+     "name":"默认商家",
+     "appid":null,
+     "content":"商家活动内容信息",
+     "detail":"商家活动详细描述信息",
+     "regular":"商家活动规则",
+     "address":"商家活动地址",
+     "ticketAddress":"商家活动领票地址",
+     "totalTicket":1000,
+     "surplusTicket":1000,
+     "createTime":"2018-05-11 04:20:50"
      }
      }
 

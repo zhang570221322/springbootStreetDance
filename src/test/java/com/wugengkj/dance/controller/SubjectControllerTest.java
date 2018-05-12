@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by zwl on 2018/5/11.
  * May god bless me
  */
-@Ignore
+//@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SubjectControllerTest {
@@ -62,9 +62,9 @@ public class SubjectControllerTest {
     @Test
     public void _post() throws Exception {
         String subject="[\"1\":\"A\",\"2\":\"B\",\"3\":\"B\",\"4\":\"C\"]";
-        MvcResult result = mockMvc.perform(post("/subject/post?subject="+subject)
-                .param("code","111")
-//                .param("subject",subject)
+        MvcResult result = mockMvc.perform(post("/subject/post")
+                .header("code","111")
+
         )
                 .andExpect(status().isOk())// 模拟向testRest发送get请求
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))// 预期返回值的媒体类型text/plain;charset=UTF-8
