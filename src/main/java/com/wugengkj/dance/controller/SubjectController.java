@@ -27,19 +27,13 @@ import java.util.Map;
 public class SubjectController {
     @Autowired
     private ISubjectService subjectService;
-    @Autowired
-    private SubjectUtil subjectUtil;
+
     @ApiOperation("获取用户题目信息")
     @PostMapping("get")
     public ResponseInfoVO getUserSubjects(@RequestParam("code") String code) {
         String openId = AccessTokenUtil.getOpenId(code);
         //得到随机对象
-        List<Subject> temp = subjectService.getRandomList(openId);
-        //复制对象
-        List<Subject> randomList = subjectUtil.copySubjectList(temp);
-
-        // 置空答案
-        randomList.stream().forEach(subject -> subject.setAnswer(null));
+        List<Subject> randomList = subjectService.getRandomList(openId);
 
         return ResponseInfoVO.success(randomList);
     }

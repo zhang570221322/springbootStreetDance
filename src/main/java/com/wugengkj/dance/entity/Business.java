@@ -2,6 +2,7 @@ package com.wugengkj.dance.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Business {
     @TableId
     private Long id;
     private String name;
+    @JsonIgnore
     private String appid;
     private String content;
     private String detail;
