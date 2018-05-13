@@ -62,8 +62,8 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         log.info("添加subjects缓存!");
         return super.selectList(new EntityWrapper<>());
     }
-    //增加事务
-    @Transactional
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<Subject> getRandomList(String openId) {
         List<Subject> subjectList = subjectService.queryList(-1);
@@ -108,7 +108,9 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
      * @return 用户最终结果
      */
     private Map<String, Integer> validSubjectResult(Map<Long, String> userResults) {
-        Map<String, Integer> results = new HashMap<>();
+        Map<String, Integer> results = new HashMap<>(9);
+        // 强制注销内存数据
+        subjectService.removeCache();
         List<Subject> cacheSubjects = subjectService.queryList(-1);
         int i = 0, j = 0;
         for (Map.Entry<Long, String> next : userResults.entrySet()) {
@@ -128,10 +130,10 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         return results;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> postUserSubjectResult(String openId, Map<Long, String> results) {
-        Map<String, Object> ticketMap = new HashMap<>();
+        Map<String, Object> ticketMap = new HashMap<>(9);
         // 获取用户信息(用于用户状态判断)
         User user = userService.queryOneByOpenId(openId);
         if (UserStatus.USER_ANSWERED.getCode().equals(user.getStatus())) {

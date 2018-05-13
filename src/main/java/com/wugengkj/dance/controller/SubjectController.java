@@ -42,7 +42,7 @@ public class SubjectController {
     @PostMapping("post")
     public ResponseInfoVO postUserResult(@RequestHeader String code, @RequestBody List<SubjectInfoDTO> subjects) {
         String openId = AccessTokenUtil.getOpenId(code);
-        Map<Long, String> results = new HashMap<>();
+        Map<Long, String> results = new HashMap<>(11);
         subjects.stream().forEach(dto -> results.put(dto.getId(), dto.getResult()));
         return ResponseInfoVO.success(subjectService.postUserSubjectResult(openId, results));
     }

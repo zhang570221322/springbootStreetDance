@@ -7,7 +7,7 @@ package com.wugengkj.dance.utils;
 
 
 import com.wugengkj.dance.common.constants.GlobalConstants;
-import com.wugengkj.dance.common.enums.ticketType;
+import com.wugengkj.dance.common.enums.TicketType;
 import com.wugengkj.dance.entity.Subject;
 import com.wugengkj.dance.service.ISubjectService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Random;
 
 
+/**
+ * @author zwl
+ */
 @Slf4j
 @Component
 public class SubjectUtil {
@@ -41,15 +44,15 @@ public class SubjectUtil {
         if (subjectSuccessNum >= GlobalConstants.SUBJECT_NUM_BORDER_FIRST) {
             if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_SECOND) {
                 //普通票
-                return ticketType.ORDINARY.getCode();
+                return TicketType.ORDINARY.getCode();
             }
             if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
                 //看台票
-                return ticketType.MEDIUM.getCode();
+                return TicketType.MEDIUM.getCode();
             }
             if (subjectSuccessNum == GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
                 //VIP票
-                return ticketType._NONE.getCode();
+                return TicketType._NONE.getCode();
             }
 
         }

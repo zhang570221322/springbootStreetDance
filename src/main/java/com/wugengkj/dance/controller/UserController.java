@@ -39,6 +39,8 @@ import java.util.List;
 @CrossOrigin
 @Validated
 public class UserController {
+    private final static String PHONE = "phone";
+    private final static String QQ = "qq";
 
     @Autowired
     private ITicketService ticketService;
@@ -65,10 +67,10 @@ public class UserController {
                                           @RequestParam("qq") String qq,
                                           @RequestParam("avatar") String avatar) {
         String openId = AccessTokenUtil.getOpenId(code);
-        if (userService.queryByOrderCol("phone", phone) != null) {
+        if (userService.queryByOrderCol(PHONE, phone) != null) {
             throw new GlobalException(ErrorStatus.USER_PHONE_EXIST_ERROR);
         }
-        if (userService.queryByOrderCol("qq", qq) != null) {
+        if (userService.queryByOrderCol(QQ, qq) != null) {
             throw new GlobalException(ErrorStatus.USER_QQ_EXIST_ERROR);
         }
         User build = User.builder()

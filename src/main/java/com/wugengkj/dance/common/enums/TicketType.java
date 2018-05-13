@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Created by zwl on 2018/5/12.
+ *
+ * @author zwl
+ * @date 2018/5/12
  * May god bless me
  * 票的种类
  * 名称    位置         价格         票目
@@ -14,7 +16,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum  ticketType {
+public enum TicketType {
     // 票种类
     _NONE(0, "无票"),
     ORDINARY (1, "普通"),

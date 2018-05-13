@@ -32,6 +32,7 @@ public interface ITicketService extends IService<Ticket> {
     /**
      * 获取票类型
      *
+     * @param key 缓存标识
      * @return
      */
      List<Ticket> queryList(int key);
