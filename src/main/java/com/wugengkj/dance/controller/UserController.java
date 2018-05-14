@@ -64,21 +64,17 @@ public class UserController {
                                           @Range(max = 150, message = "年龄最大不超过150岁") @RequestParam("age") Integer age,
                                           @Pattern(regexp = "[男|女]", message = "无法识别该性别")@RequestParam("sex") String sex,
                                           @Pattern(regexp = "^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$", message = "无法识别该手机号") @RequestParam("phone") String phone,
-                                          @RequestParam("qq") String qq,
+                                          @RequestParam(value = "qq",required = false) String qq,
                                           @RequestParam("avatar") String avatar) {
         String openId = AccessTokenUtil.getOpenId(code);
         if (userService.queryByOrderCol(PHONE, phone) != null) {
             throw new GlobalException(ErrorStatus.USER_PHONE_EXIST_ERROR);
-        }
-        if (userService.queryByOrderCol(QQ, qq) != null) {
-            throw new GlobalException(ErrorStatus.USER_QQ_EXIST_ERROR);
         }
         User build = User.builder()
                 .openId(openId)
                 .sex(sex)
                 .age(age)
                 .phone(phone)
-                .qq(qq)
                 .avatar(avatar)
                 .name(name)
                 .status(UserStatus.USER_NO_ANSWER.getCode())

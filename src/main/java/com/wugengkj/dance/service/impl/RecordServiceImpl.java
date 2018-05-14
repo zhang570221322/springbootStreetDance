@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +33,13 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     @Autowired
     private IRecordService recordService;
 
-    @Cacheable(key = "#p0")
     @Override
     public List<Record> queryListByOpenId(String openId) {
         log.info("添加records缓存!");
         return selectList(new EntityWrapper<Record>().eq("open_id", openId));
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean addBatchByOpenIdAndSubjects(String openId, List<Long> subjects) {
         List<Record> list = new ArrayList<>();
@@ -54,6 +55,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         return b;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateBatchIsTrue(String openId, Map<String, Integer> results) {
         List<Record> list = recordService.queryListByOpenId(openId);

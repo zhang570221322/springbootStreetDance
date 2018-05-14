@@ -26,7 +26,6 @@ public class Subject  {
     private Long id;
     private String title;
     private String content;
-    @JsonIgnore
     private String answer;
     private Integer type;
 }

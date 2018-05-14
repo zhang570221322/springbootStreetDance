@@ -34,7 +34,6 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
     @Autowired
     private IBusinessService businessService;
 
-    @Cacheable(key = "#p0")
     @Override
     public Ticket queryOneByOpenId(String openId) {
         Ticket ticket = baseMapper.selectOneByOpenId(openId);

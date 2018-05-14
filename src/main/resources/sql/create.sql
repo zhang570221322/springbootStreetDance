@@ -16,15 +16,13 @@ CREATE TABLE user (
   `sex` VARCHAR(4) DEFAULT '男' COMMENT '性别(未知/男/女)',
   `age` INTEGER DEFAULT 18 COMMENT '年龄',
   `phone` VARCHAR(16) COMMENT '手机号',
-  `qq` VARCHAR(16) COMMENT 'qq号',
   `avatar` VARCHAR(225) COMMENT '头像',
   `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态(未答题:0/答题中:1/已答题:2)',
   `ticket_id` BIGINT DEFAULT -1 COMMENT '票id',
   `create_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
   `post_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '答案提交时间',
   INDEX index_name(name),
-  UNIQUE INDEX uniq_name(phone),
-  UNIQUE INDEX uniq_qq(qq)
+  UNIQUE INDEX uniq_name(phone)
 ) ENGINE=innodb, CHARSET=utf8mb4, COMMENT='用户表';
 
 -- 答题记录表
