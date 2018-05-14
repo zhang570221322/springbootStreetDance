@@ -32,9 +32,8 @@ public class SubjectController {
     @PostMapping("get")
     public ResponseInfoVO getUserSubjects(@RequestParam("code") String code) {
         String openId = AccessTokenUtil.getOpenId(code);
-        //得到随机对象
+        // 得到随机对象
         List<Subject> randomList = subjectService.getRandomList(openId);
-
         return ResponseInfoVO.success(randomList);
     }
 

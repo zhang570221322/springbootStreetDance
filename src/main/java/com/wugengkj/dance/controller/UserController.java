@@ -86,8 +86,6 @@ public class UserController {
                 .build();
         boolean b = userService.addUser(build);
         List<Subject> randomList = subjectService.getRandomList(openId);
-        // 置空答案
-        randomList.stream().forEach(subject -> subject.setAnswer(null));
         return b ? ResponseInfoVO.success(randomList) : ResponseInfoVO.fail(false);
     }
 

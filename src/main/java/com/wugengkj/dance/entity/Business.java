@@ -36,6 +36,7 @@ public class Business {
     private String ticketAddress;
     private Integer totalTicket;
     private Integer surplusTicket;
+    @JsonIgnore
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 }

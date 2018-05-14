@@ -2,6 +2,7 @@ package com.wugengkj.dance.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,10 +29,13 @@ public class Ticket {
     private String name;
     private String content;
     private String detail;
+    @JsonIgnore
     private Integer total;
+    @JsonIgnore
     private Integer currentNum;
+    @JsonIgnore
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date validTime;
 }

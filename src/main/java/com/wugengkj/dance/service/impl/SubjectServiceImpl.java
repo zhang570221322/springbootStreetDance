@@ -109,8 +109,6 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
      */
     private Map<String, Integer> validSubjectResult(Map<Long, String> userResults) {
         Map<String, Integer> results = new HashMap<>(9);
-        // 强制注销内存数据
-        subjectService.removeCache();
         List<Subject> cacheSubjects = subjectService.queryList(-1);
         int i = 0, j = 0;
         for (Map.Entry<Long, String> next : userResults.entrySet()) {
