@@ -42,12 +42,12 @@ import java.util.Set;
 @RequestMapping("error")
 @Slf4j
 public class ErrorController extends AbstractErrorController {
-    private ErrorAttributes attributes;
 
     @Autowired
-    public ErrorController(ErrorAttributes attributes) {
-        super(attributes);
-        this.attributes = attributes;
+    private ErrorAttributes attributes;
+
+    public ErrorController(ErrorAttributes errorAttributes) {
+        super(errorAttributes);
     }
 
     @Override
@@ -63,13 +63,13 @@ public class ErrorController extends AbstractErrorController {
         Map<String, Object> errorAttributes = this.getErrorAttributes(request, false);
         // 获取自定义异常参数
         RequestAttributes requestAttributes = new ServletRequestAttributes(request);
-        Throwable exception = attributes.getError(requestAttributes).getCause();
+        Throwable exception = attributes.getError(requestAttributes);
         if (exception == null) {
             return ResponseInfoVO.fail(ErrorTemplateVO.builder()
                     .code(errorAttributes.get("status").toString())
                     .error(errorAttributes.get("error").toString())
                     .message(errorAttributes.get("message").toString())
-                    .exception(errorAttributes.get("exception").toString())
+                    .exception(errorAttributes.get("exception") != null ? errorAttributes.get("exception").toString() : "")
                     .path(errorAttributes.get("path").toString())
                     .build());
         }

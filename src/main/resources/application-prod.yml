@@ -3,10 +3,10 @@ spring:
   # datasource
   datasource:
     druid:
-      url: jdbc:mysql://139.199.16.239:3306/dance?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+      url: jdbc:mysql://127.0.0.1:3306/dance?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
       driver-class-name: com.mysql.jdbc.Driver
       username: root
-      password: XUBENCHI789xbc!@#
+      password: ADMIN789dance!@#
       initial-size: 1
       min-idle: 3
       max-active: 20

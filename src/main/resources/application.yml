@@ -2,7 +2,7 @@
 spring:
   # profile
   profiles:
-    active: dev
+    active: prod
   # jackson
   jackson:
     default-property-inclusion: non_empty
