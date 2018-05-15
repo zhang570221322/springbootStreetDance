@@ -60,9 +60,9 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
         throw new GlobalException(ErrorStatus.TICKET_LACK_ERROR);
     }
 
-    @Cacheable(key = "#p0")
+
     @Override
-    public List<Ticket> queryList(int key) {
+    public List<Ticket> queryList() {
         return selectList(new EntityWrapper<>());
     }
 

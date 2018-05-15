@@ -9,15 +9,15 @@ package com.wugengkj.dance.utils;
 import com.wugengkj.dance.common.constants.GlobalConstants;
 import com.wugengkj.dance.common.enums.TicketType;
 import com.wugengkj.dance.entity.Subject;
+import com.wugengkj.dance.entity.Ticket;
 import com.wugengkj.dance.service.ISubjectService;
+import com.wugengkj.dance.service.ITicketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 /**
@@ -28,7 +28,8 @@ import java.util.Random;
 public class SubjectUtil {
     @Autowired
     private ISubjectService iSubjectService;
-
+    @Autowired
+    private ITicketService iTicketService;
 
     /**
      * 计算用户得票类型
@@ -41,18 +42,23 @@ public class SubjectUtil {
      * @return 得票类型
      */
     public int ticketId(int subjectSuccessNum) {
+        List<Ticket> tickets = iTicketService.queryList();
+        Map<Integer, Ticket> maps = new HashMap<>();
+        for (Ticket ticket : tickets) {
+            maps.put(ticket.getId().intValue(), ticket);
+        }
         if (subjectSuccessNum >= GlobalConstants.SUBJECT_NUM_BORDER_FIRST) {
             if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_SECOND) {
                 //普通票
-                return TicketType.ORDINARY.getCode();
+                return maps.get(TicketType.ORDINARY.getCode()).getCurrentNum() > 0 ? TicketType.ORDINARY.getCode() : 0;
             }
             if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
                 //看台票
-                return TicketType.MEDIUM.getCode();
+                return maps.get(TicketType.MEDIUM.getCode()).getCurrentNum() > 0 ? TicketType.MEDIUM.getCode() : 0;
             }
             if (subjectSuccessNum == GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
                 //VIP票
-                return TicketType._NONE.getCode();
+                return maps.get(TicketType._NONE.getCode()).getCurrentNum() > 0 ? TicketType._NONE.getCode() : 0;
             }
 
         }
@@ -80,7 +86,8 @@ public class SubjectUtil {
 
         return list;
     }
-    public ArrayList<Subject> copySubjectList(List<Subject> subjects){
+
+    public ArrayList<Subject> copySubjectList(List<Subject> subjects) {
         ArrayList<Subject> listRet = new ArrayList<>();
         subjects.stream().forEach(subject -> {
             Subject s = new Subject();

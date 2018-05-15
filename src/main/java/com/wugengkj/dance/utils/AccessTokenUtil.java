@@ -18,16 +18,15 @@ import java.net.URL;
  */
 @Slf4j
 public class AccessTokenUtil {
-    // private final static String APP_ID = "wxbd29784ded5b18da";
-    // private final static String APP_SECRET = "f1385065e67b67a62db4299671692441";
+    private static final long API_TIMEOUT = 1000 * 60 * 10;
+    private final static String APP_ID = "wxbd29784ded5b18da";
+    private final static String APP_SECRET = "f1385065e67b67a62db4299671692441";
 
     /**
      * 五更
      */
-    private final static String APP_ID = "wxf2249998f36a3819";
-    private final static String APP_SECRET = "ca1422b0ea35e49933ac2364ec085fc8";
-    private static final long API_TIMEOUT = 1000 * 60 * 10;
-
+    // private final static String APP_ID = "wxf2249998f36a3819";
+    // private final static String APP_SECRET = "ca1422b0ea35e49933ac2364ec085fc8";
 
     /**
      * token验证工具

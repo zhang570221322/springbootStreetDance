@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,14 @@ public class SubjectController {
 
     @ApiOperation("用户提交题目")
     @PostMapping("post")
-    public ResponseInfoVO postUserResult(@RequestHeader String code, @RequestBody List<SubjectInfoDTO> subjects) {
+    public ResponseInfoVO postUserResult(@RequestParam("code") String code, @RequestParam("list") String list) {
+        List<SubjectInfoDTO> subjects = new ArrayList<>();
+        // 分割，重新拼接参数
+        String[] split = list.split(",");
+        for (String aSplit : split) {
+            String[] split1 = aSplit.split(":");
+            subjects.add(SubjectInfoDTO.builder().id(Long.parseLong(split1[0])).result(split1[1]).build());
+        }
         String openId = AccessTokenUtil.getOpenId(code);
         Map<Long, String> results = new HashMap<>(11);
         subjects.stream().forEach(dto -> results.put(dto.getId(), dto.getResult()));
