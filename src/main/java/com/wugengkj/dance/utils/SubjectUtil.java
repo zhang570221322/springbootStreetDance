@@ -58,7 +58,7 @@ public class SubjectUtil {
             }
             if (subjectSuccessNum == GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
                 //VIP票
-                return maps.get(TicketType._NONE.getCode()).getCurrentNum() > 0 ? TicketType._NONE.getCode() : 0;
+                return maps.get(TicketType.SENIOR.getCode()).getCurrentNum() > 0 ? TicketType.SENIOR.getCode() : 0;
             }
 
         }
