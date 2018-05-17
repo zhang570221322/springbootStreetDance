@@ -21,6 +21,7 @@ CREATE TABLE user (
   `ticket_id` BIGINT DEFAULT -1 COMMENT '票id',
   `create_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
   `post_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '答案提交时间',
+  `valid_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '票过期时间',
   INDEX index_name(name),
   UNIQUE INDEX uniq_name(phone)
 ) ENGINE=innodb, CHARSET=utf8mb4, COMMENT='用户表';

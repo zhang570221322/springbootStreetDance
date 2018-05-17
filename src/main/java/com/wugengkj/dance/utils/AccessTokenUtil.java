@@ -2,9 +2,13 @@ package com.wugengkj.dance.utils;
 
 import com.wugengkj.dance.common.enums.ErrorStatus;
 import com.wugengkj.dance.common.exception.GlobalException;
+import com.wugengkj.dance.entity.Business;
+import com.wugengkj.dance.service.IBusinessService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,9 +20,12 @@ import java.net.URL;
  * <p>date: 2018-05-10 09:29</p>
  * <p>version: 1.0</p>
  */
+@Component
 @Slf4j
 public class AccessTokenUtil {
-    private static final long API_TIMEOUT = 1000 * 60 * 10;
+    @Autowired
+    private IBusinessService iBusinessService;
+    private  final long API_TIMEOUT = 1000 * 60 * 10;
     /**
      *  派弗派特
      */
@@ -28,22 +35,17 @@ public class AccessTokenUtil {
     /**
      * 五更
      */
-     // private final static String APP_ID = "wxf2249998f36a3819";
-     // private final static String APP_SECRET = "ca1422b0ea35e49933ac2364ec085fc8";
+    // private final static String APP_ID = "wxf2249998f36a3819";
+    // private final static String APP_SECRET = "ca1422b0ea35e49933ac2364ec085fc8";
 
 
-    /**
-     * 最新申请
-     */
-    private final static String APP_ID = "wx713048310b66e095";
-    private final static String APP_SECRET = "42d3b57b5c394b41ea285db4ba1c2d7c";
     /**
      * token验证工具
      *
      * @param token 时间戳
      * @return 正确/错误
      */
-    public static boolean valid(String token) {
+    public  boolean valid(String token) {
         long accessTime;
         try {
             accessTime = Long.valueOf(token);
@@ -62,7 +64,7 @@ public class AccessTokenUtil {
      * @param code
      * @return
      */
-    public static String getOpenId(String code) {
+    public String getOpenId(String code) {
         // 方便测试
         // return "o504M0QepCvAgNYErWeRk3MqVEHM";
         if (code != null && !code.isEmpty()) {
@@ -70,11 +72,13 @@ public class AccessTokenUtil {
             BufferedReader reader;
             HttpURLConnection urlConnection = null;
             String url = "https://api.weixin.qq.com/sns/jscode2session";
-            String httpUrl = url + "?appid=" + APP_ID + "&secret=" + APP_SECRET + "&js_code=" + code
+            Business business = iBusinessService.queryOneById(1L);
+            String appId = business.getContent();
+            String appSecret = business.getDetail();
+            String httpUrl = url + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + code
                     + "&grant_type=authorization_code";
             StringBuilder str;
             try {
-
                 urlConnection = (HttpURLConnection) new URL(httpUrl).openConnection();
                 reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
                 str = new StringBuilder();

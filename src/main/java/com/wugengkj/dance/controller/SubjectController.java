@@ -9,6 +9,7 @@ import com.wugengkj.dance.utils.SubjectUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,10 +30,13 @@ public class SubjectController {
     @Autowired
     private ISubjectService subjectService;
 
+    @Autowired
+    private AccessTokenUtil accessTokenUtil;
+
     @ApiOperation("获取用户题目信息")
     @PostMapping("get")
     public ResponseInfoVO getUserSubjects(@RequestParam("code") String code) {
-        String openId = AccessTokenUtil.getOpenId(code);
+        String openId = accessTokenUtil.getOpenId(code);
         // 得到随机对象
         List<Subject> randomList = subjectService.getRandomList(openId);
         return ResponseInfoVO.success(randomList);
@@ -48,7 +52,7 @@ public class SubjectController {
             String[] split1 = aSplit.split(":");
             subjects.add(SubjectInfoDTO.builder().id(Long.parseLong(split1[0])).result(split1[1]).build());
         }
-        String openId = AccessTokenUtil.getOpenId(code);
+        String openId = accessTokenUtil.getOpenId(code);
         Map<Long, String> results = new HashMap<>(11);
         subjects.stream().forEach(dto -> results.put(dto.getId(), dto.getResult()));
         return ResponseInfoVO.success(subjectService.postUserSubjectResult(openId, results));

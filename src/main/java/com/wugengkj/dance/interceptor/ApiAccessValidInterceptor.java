@@ -26,6 +26,9 @@ public class ApiAccessValidInterceptor implements HandlerInterceptor {
     @Lazy
     @Autowired
     private IBusinessService businessService;
+    @Lazy
+    @Autowired
+    private AccessTokenUtil accessTokenUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
@@ -34,7 +37,7 @@ public class ApiAccessValidInterceptor implements HandlerInterceptor {
         String appid = httpServletRequest.getParameter("appid");
 
         String s = businessService.queryAppidById(1L);
-        if (s.equals(appid) && AccessTokenUtil.valid(token)) {
+        if (s.equals(appid) && accessTokenUtil.valid(token)) {
             return true;
         }
 

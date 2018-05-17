@@ -159,6 +159,10 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
             log.info("更新用户" + openId + "答题状态为" + UserStatus.USER_ANSWERED.getName());
             user.setTicketId((long) i);
             user.setPostTime(new Date());
+            Calendar instance = Calendar.getInstance();
+            instance.setTime(new Date());
+            instance.add(Calendar.DATE, 7);
+            user.setValidTime(instance.getTime());
             user.setStatus(UserStatus.USER_ANSWERED.getCode());
             userService.updateUserStatus(user);
 

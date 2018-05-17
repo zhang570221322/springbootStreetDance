@@ -2,6 +2,7 @@ package com.wugengkj.dance.controller;
 
 import com.wugengkj.dance.common.dto.UserInfoDTO;
 import com.wugengkj.dance.common.enums.ErrorStatus;
+import com.wugengkj.dance.common.enums.SexType;
 import com.wugengkj.dance.common.enums.UserStatus;
 import com.wugengkj.dance.common.exception.GlobalException;
 import com.wugengkj.dance.common.vo.ResponseInfoVO;
@@ -51,10 +52,13 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private AccessTokenUtil accessTokenUtil;
+
     @ApiOperation("获取用户状态")
     @PostMapping(value = "status")
     public ResponseInfoVO getUserStatus(@RequestParam("code") String code) {
-        return ResponseInfoVO.success(userService.queryUserStatus(AccessTokenUtil.getOpenId(code)));
+        return ResponseInfoVO.success(userService.queryUserStatus(accessTokenUtil.getOpenId(code)));
     }
 
     @ApiOperation("提交用户信息")
@@ -64,9 +68,9 @@ public class UserController {
                                           @Range(max = 150, message = "年龄最大不超过150岁") @RequestParam("age") Integer age,
                                           @Pattern(regexp = "[男|女]", message = "无法识别该性别")@RequestParam("sex") String sex,
                                           @Pattern(regexp = "^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$", message = "无法识别该手机号") @RequestParam("phone") String phone,
-                                          @RequestParam(value = "qq",required = false) String qq,
-                                          @RequestParam("avatar") String avatar) {
-        String openId = AccessTokenUtil.getOpenId(code);
+                                          @RequestParam(value = "qq", required = false) String qq,
+                                          @RequestParam(value = "avatar", required = false) String avatar) {
+        String openId = accessTokenUtil.getOpenId(code);
         if (userService.queryByOrderCol(PHONE, phone) != null) {
             throw new GlobalException(ErrorStatus.USER_PHONE_EXIST_ERROR);
         }
@@ -75,7 +79,7 @@ public class UserController {
                 .sex(sex)
                 .age(age)
                 .phone(phone)
-                .avatar(avatar)
+                .avatar(SexType.MALE.getName().equals(sex) ? "https://sharepoem.com/boy.png" : "https://sharepoem.com/girl.png")
                 .name(name)
                 .status(UserStatus.USER_NO_ANSWER.getCode())
                 .ticketId(-1L)
@@ -88,7 +92,7 @@ public class UserController {
     @ApiOperation("获取用户信息(包含已获得票的信息)")
     @PostMapping(value = "info")
     public ResponseInfoVO getUserInfo(@RequestParam("code") String code) {
-        String openId = AccessTokenUtil.getOpenId(code);
+        String openId = accessTokenUtil.getOpenId(code);
         User user = userService.queryOneByOpenId(openId);
         UserInfoDTO build = UserInfoDTO.builder().build();
         if (user != null) {

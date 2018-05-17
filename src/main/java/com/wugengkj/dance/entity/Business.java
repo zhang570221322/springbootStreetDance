@@ -29,7 +29,9 @@ public class Business {
     private String name;
     @JsonIgnore
     private String appid;
+    @JsonIgnore
     private String content;
+    @JsonIgnore
     private String detail;
     private String regular;
     private String address;

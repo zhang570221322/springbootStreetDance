@@ -32,5 +32,7 @@ public class UserInfoDTO {
     private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date postTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date validTime;
     private Ticket ticket;
 }
