@@ -54,11 +54,11 @@ public class SubjectUtil {
             }
             if (subjectSuccessNum < GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
                 //看台票
-                return maps.get(TicketType.MEDIUM.getCode()).getCurrentNum() > 0 ? TicketType.MEDIUM.getCode() : 0;
+                return maps.get(TicketType.MEDIUM.getCode()).getCurrentNum() > 0 ? TicketType.MEDIUM.getCode() : ticketId(3);
             }
             if (subjectSuccessNum == GlobalConstants.SUBJECT_NUM_BORDER_THIRD) {
                 //VIP票
-                return maps.get(TicketType.SENIOR.getCode()).getCurrentNum() > 0 ? TicketType.SENIOR.getCode() : 0;
+                return maps.get(TicketType.SENIOR.getCode()).getCurrentNum() > 0 ? TicketType.SENIOR.getCode() : ticketId(6);
             }
 
         }

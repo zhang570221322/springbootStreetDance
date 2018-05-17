@@ -150,7 +150,10 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         if (b && UserStatus.USER_ANSWERING.getCode().equals(user.getStatus())) {
             log.info("更新用户答题成功!");
             Integer successNums = resultMap.get("SUCCESS_NUMS");
-            int i = subjectUtil.ticketId(successNums);
+            int i;
+            synchronized (this) {
+                i = subjectUtil.ticketId(successNums);
+            }
 
             // 修改用户答题状态为答题完成
             log.info("更新用户" + openId + "答题状态为" + UserStatus.USER_ANSWERED.getName());

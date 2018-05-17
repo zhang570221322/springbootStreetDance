@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * Created by zwl on 2018/5/12.
  * May god bless me
  */
-@Ignore
+//@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SubjectUtilTest {
@@ -24,7 +24,7 @@ public class SubjectUtilTest {
     private SubjectUtil subjectUtil;
     @Test
     public void ticketId() throws Exception {
-        System.out.println(subjectUtil.ticketId(3)+"**********");
+        System.out.println(subjectUtil.ticketId(9)+"**********");
     }
 
     @Test

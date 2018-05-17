@@ -34,7 +34,6 @@ public class Ticket {
     @JsonIgnore
     private Integer currentNum;
     @JsonIgnore
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date validTime;
