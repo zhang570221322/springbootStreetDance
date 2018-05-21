@@ -42,6 +42,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean addBatchByOpenIdAndSubjects(String openId, List<Long> subjects) {
+        baseMapper.deleteListByOpenId(openId);
         List<Record> list = new ArrayList<>();
         for (Long subject : subjects) {
             list.add(Record.builder()

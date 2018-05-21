@@ -69,7 +69,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         List<Subject> subjectList = subjectService.queryList(-1);
         List<Subject> list = new ArrayList<>();
         int i = userService.queryUserStatus(openId);
-        if (i == UserStatus.USER_ANSWERING.getCode() || i == UserStatus.USER_ANSWERED.getCode()) {
+        if (i == UserStatus.USER_ANSWERED.getCode()) {
             List<Record> records = recordService.queryListByOpenId(openId);
             log.info("检测用户" + openId + "状态为" + UserStatus.USER_ANSWERING.getName() + "，" +
                     "获取已保存题目编号为" + records.stream().map(Record::getSubjectId).collect(Collectors.toList()).toString());
@@ -78,7 +78,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
             }
             //此时也是内存中的题目
             return list;
-        } else if (i == UserStatus.USER_NO_ANSWER.getCode()) {
+        } else if (i == UserStatus.USER_NO_ANSWER.getCode() || i == UserStatus.USER_ANSWERING.getCode()) {
             // 随机获取题目
             list = subjectUtil.randomSubject();
 
@@ -87,10 +87,11 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
 
             // 修改用户状态为答题中
             User user = userService.queryOneByOpenId(openId);
-            user.setStatus(UserStatus.USER_ANSWERING.getCode());
-            userService.updateUserStatus(user);
-
-            log.info("修改用户" + openId + "状态为" + UserStatus.USER_ANSWERING.getName());
+            if (!UserStatus.USER_ANSWERING.getCode().equals(user.getStatus())) {
+                user.setStatus(UserStatus.USER_ANSWERING.getCode());
+                userService.updateUserStatus(user);
+                log.info("修改用户" + openId + "状态为" + UserStatus.USER_ANSWERING.getName());
+            }
 
             // 添加答题记录
             List<Long> subjects = list.stream().map(Subject::getId).collect(Collectors.toList());

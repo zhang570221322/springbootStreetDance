@@ -23,4 +23,12 @@ public interface RecordMapper extends BaseMapper<Record> {
      * @return 更新数量
      */
     int updateRecordResult(@Param("openId") String openId, @Param("subjectId") Long subjectId, @Param("isTrue") Integer isTrue);
+
+    /**
+     * 删除指定openId的答题记录
+     *
+     * @param openId
+     * @return
+     */
+    int deleteListByOpenId(String openId);
 }

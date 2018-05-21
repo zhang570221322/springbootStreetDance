@@ -66,8 +66,8 @@ public class UserController {
     public ResponseInfoVO getUserPostInfo(@RequestParam("code") String code,
                                           @Size(min = 2, message = "姓名长度不能小于2") @RequestParam("name") String name,
                                           @Range(max = 150, message = "年龄最大不超过150岁") @RequestParam("age") Integer age,
-                                          @Pattern(regexp = "[男|女]", message = "无法识别该性别")@RequestParam("sex") String sex,
-                                          @Pattern(regexp = "^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$", message = "无法识别该手机号") @RequestParam("phone") String phone,
+                                          @Pattern(regexp = "[男|女]", message = "无法识别该性别") @RequestParam("sex") String sex,
+                                          @RequestParam("phone") String phone,
                                           @RequestParam(value = "qq", required = false) String qq,
                                           @RequestParam(value = "avatar", required = false) String avatar) {
         String openId = accessTokenUtil.getOpenId(code);
@@ -84,6 +84,9 @@ public class UserController {
                 .status(UserStatus.USER_NO_ANSWER.getCode())
                 .ticketId(-1L)
                 .build();
+        if (avatar != null && !avatar.isEmpty() && !avatar.equals("")) {
+            build.setAvatar(avatar);
+        }
         boolean b = userService.addUser(build);
         List<Subject> randomList = subjectService.getRandomList(openId);
         return b ? ResponseInfoVO.success(randomList) : ResponseInfoVO.fail(false);

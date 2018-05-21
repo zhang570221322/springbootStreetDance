@@ -37,7 +37,6 @@ public class MybatisPlusConfig {
     @Profile({"dev", "test"})
     public SqlExplainInterceptor sqlExplainInterceptor() {
         SqlExplainInterceptor sqlExplainInterceptor = new SqlExplainInterceptor();
-        sqlExplainInterceptor.setStopProceed(false);
         return sqlExplainInterceptor;
     }
 

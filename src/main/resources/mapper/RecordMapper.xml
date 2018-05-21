@@ -4,4 +4,7 @@
     <update id="updateRecordResult">
         UPDATE record SET is_true=#{isTrue} WHERE open_id=#{openId} AND subject_id=#{subjectId}
     </update>
+    <delete id="deleteListByOpenId">
+        DELETE FROM record WHERE open_id=#{openId}
+    </delete>
 </mapper>

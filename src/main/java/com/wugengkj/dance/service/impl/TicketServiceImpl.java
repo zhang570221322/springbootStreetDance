@@ -50,11 +50,18 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
         if (currentNum > 0) {
             ticket = Ticket.builder().id(ticketId).currentNum(currentNum - 1).build();
             // 更新商家总票数
-            boolean b = updateById(ticket) && businessService.reduceOneTicket(businessId);
-            if (b) {
+            boolean b1 = updateById(ticket);
+            if (ticketId > 0) {
+                boolean b = b1 && businessService.reduceOneTicket(businessId);
+                if (b) {
+                    ticketService.removeCache();
+                }
+                return b;
+            }
+            if (b1) {
                 ticketService.removeCache();
             }
-            return b;
+            return b1;
         }
 
         throw new GlobalException(ErrorStatus.TICKET_LACK_ERROR);
