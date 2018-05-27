@@ -1,7 +1,6 @@
 package com.wugengkj.dance.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -12,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * <p>date: 2018-05-07 19:55</p>
  * <p>version: 1.0</p>
  */
-@Profile({"dev"})
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
