@@ -1,13 +1,17 @@
 package com.wugengkj.dance.controller;
 
 import com.wugengkj.dance.common.dto.SubjectInfoDTO;
+import com.wugengkj.dance.common.vo.ErrorTemplateVO;
 import com.wugengkj.dance.common.vo.ResponseInfoVO;
+import com.wugengkj.dance.entity.Business;
 import com.wugengkj.dance.entity.Subject;
 import com.wugengkj.dance.service.ISubjectService;
 import com.wugengkj.dance.utils.AccessTokenUtil;
 import com.wugengkj.dance.utils.SubjectUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +26,8 @@ import java.util.Map;
  * <p>date: 2018-05-10 20:42</p>
  * <p>version: 1.0</p>
  */
-@Api(value = "题目相关请求", description = "/subject")
-@RequestMapping("/subject")
+@Api(description = "题目相关请求")
+@RequestMapping("subject")
 @RestController
 @CrossOrigin
 public class SubjectController {
@@ -34,6 +38,10 @@ public class SubjectController {
     private AccessTokenUtil accessTokenUtil;
 
     @ApiOperation("获取用户题目信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "请求成功", response = Subject.class),
+            @ApiResponse(code = 500, message = "请求失败", response = ErrorTemplateVO.class)
+    })
     @PostMapping("get")
     public ResponseInfoVO getUserSubjects(@RequestParam("code") String code) {
         String openId = accessTokenUtil.getOpenId(code);
@@ -43,6 +51,10 @@ public class SubjectController {
     }
 
     @ApiOperation("用户提交题目")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "请求成功", response = Map.class),
+            @ApiResponse(code = 500, message = "请求失败", response = ErrorTemplateVO.class)
+    })
     @PostMapping("post")
     public ResponseInfoVO postUserResult(@RequestParam("code") String code, @RequestParam("list") String list) {
         List<SubjectInfoDTO> subjects = new ArrayList<>();

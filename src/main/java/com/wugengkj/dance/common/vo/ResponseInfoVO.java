@@ -1,5 +1,7 @@
 package com.wugengkj.dance.common.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,9 +20,13 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ApiModel(description = "响应信息结果")
 public class ResponseInfoVO<T> {
+    @ApiModelProperty(value = "响应编号")
     private String ret;
+    @ApiModelProperty(value = "响应信息")
     private String msg;
+    @ApiModelProperty(value = "响应内容")
     private T data;
 
     /**

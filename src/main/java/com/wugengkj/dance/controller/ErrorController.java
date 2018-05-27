@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
@@ -37,7 +38,8 @@ import java.util.Set;
  * <p>date: 2018-05-07 19:55</p>
  * <p>version: 1.0</p>
  */
-@Api(value = "系统错误请求", description = "/error")
+@ApiIgnore
+@Api(description = "系统错误请求", hidden = true)
 @RestControllerAdvice
 @RequestMapping("error")
 @Slf4j

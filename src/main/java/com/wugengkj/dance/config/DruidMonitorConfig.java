@@ -25,7 +25,6 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource(value = {"classpath:druid/druid.properties"})
 @ConfigurationProperties(prefix = "druid")
-@Profile({"dev"})
 @Data
 public class DruidMonitorConfig {
     private String allow;
@@ -69,23 +68,5 @@ public class DruidMonitorConfig {
         // 添加不需要忽略的格式信息
         bean.addInitParameter("exclusions","*.js,*.gif,*.jpg,*.png,*.css,*.ico,/datasource/*");
         return bean;
-    }
-
-    @Bean
-    public DruidStatInterceptor druidStatInterceptor() {
-        return new DruidStatInterceptor();
-    }
-
-    @Bean
-    public JdkRegexpMethodPointcut druidStatPointcut() {
-        JdkRegexpMethodPointcut druidStatPointcut = new JdkRegexpMethodPointcut();
-        String patterns = "com.wugengkj.dance*";
-        druidStatPointcut.setPatterns(patterns);
-        return druidStatPointcut;
-    }
-
-    @Bean
-    public Advisor druidStatAdvisor() {
-        return new DefaultPointcutAdvisor(druidStatPointcut(), druidStatInterceptor());
     }
 }

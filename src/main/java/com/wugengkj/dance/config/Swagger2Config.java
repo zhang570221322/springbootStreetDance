@@ -13,23 +13,31 @@ import springfox.documentation.spring.web.plugins.Docket;
 /**
  * Swagger2配置
  *
+ * 访问地址: http://localhost:8080/dance/swagger-ui.html
+ *
  * @author leaf
  * <p>date: 2018-05-07 19:54</p>
  * <p>version: 1.0</p>
  */
 @Configuration
-@Profile({"dev"})
 public class Swagger2Config {
 
-    /**
-     * 访问地址: http://localhost:8080/dance/swagger-ui.html
-     *
-     * @return api
-     */
-
+    @Profile("prod")
     @Bean
-    public Docket createRestApi() {
+    public Docket createProdApi() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.wugengkj.dance.controller"))
+                .paths(PathSelectors.none())
+                .build();
+    }
+
+    @Profile({"dev", "test"})
+    @Bean
+    public Docket createDevApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .enable(true)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.wugengkj.dance.controller"))
@@ -39,7 +47,7 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("dance + swagger项目api文档")
+                .title("dance项目api文档")
                 .description("一款基于swagger2打造的在线api文档")
                 .version("v1.0")
                 .build();
